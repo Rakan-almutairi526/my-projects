@@ -139,7 +139,7 @@ public class Solution {
                 }
 
                 if (activeStructure == 1) {
-                    spavl.Traverse();
+                    spavl.toString();
                 }
                 if (activeStructure == 2) {
                     System.out.print(spdlist.toString());
