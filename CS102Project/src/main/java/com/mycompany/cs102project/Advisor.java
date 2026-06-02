@@ -50,25 +50,19 @@ public class Advisor extends User {
         System.out.println("--------------------------------");
     }
 
-    @Override
-    public void viewAvailableCourses() {
-        try {
-            for (Course course : DataManager.courseList) {
-                System.out.println(course);
-            }
-        } catch (Exception e) {
-            System.out.println("System does not support this yet..");
-        }
-    }
-
-    @Override
-    public void viewSchedule() {
-        System.out.println("advisor do not haev a schedule");
-    }
 
     @Override
     public String toString() {
         return super.toString() + "\nRole: Advisor" + "\nAssigned Students: " + getStudentList().size();
     }
 
+    @Override
+    public void viewMenu() {
+
+    }
+
+    @Override
+    public void performeAction(int choice) {
+
+    }
 }

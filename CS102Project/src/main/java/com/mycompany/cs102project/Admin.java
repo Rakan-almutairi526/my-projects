@@ -45,24 +45,17 @@ public class Admin extends User {
     }
 
     @Override
-    public void viewAvailableCourses() {
-        try {
-            for (Course course : DataManager.courseList) {
-                System.out.println(course);
-            }
-        } catch (Exception e) {
-            System.out.println("System does not support this yet..");
-        }
-    }
-
-    @Override
-    public void viewSchedule() {
-        System.out.println("admin do not have schedules");
-    }
-
-    @Override
     public String toString() {
         return super.toString() + "\nRole: Admin";
     }
-    
+
+    @Override
+    public void viewMenu() {
+
+    }
+
+    @Override
+    public void performeAction(int choice) {
+
+    }
 }

@@ -53,6 +53,7 @@ public abstract class User implements IUserActions {
 
     public abstract void showRoleSummary();
 
+
     @Override
     public String toString() {
         return "Name: " + getName() +"\nId: " + getId() +"\nPhone: " + getPhone() +"\nAdress: " + getAddress();

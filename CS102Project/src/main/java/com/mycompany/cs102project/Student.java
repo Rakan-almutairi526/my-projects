@@ -98,7 +98,7 @@ public class Student extends User {
         }
     }
 
-    @Override
+
     public void viewSchedule() {
         System.out.println("Student" + getName() + "Schedule");
         for (Course course : registeredCourses) {
@@ -116,7 +116,7 @@ public class Student extends User {
         System.out.println("--------------------------------");
     }
 
-    @Override
+
     public void viewAvailableCourses() {
         try {
             for (Course course : DataManager.courseList) {
@@ -157,4 +157,12 @@ public class Student extends User {
         return super.toString() + "\nMajor: " + getMajor() + "\nRegistered Course: " + registeredCourses.size();
     }
 
+    @Override
+    public void viewMenu() {
+    }
+
+    @Override
+    public void performeAction(int choice) {
+
+    }
 }
