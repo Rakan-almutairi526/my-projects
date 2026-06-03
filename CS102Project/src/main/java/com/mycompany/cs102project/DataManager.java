@@ -24,24 +24,24 @@ public class DataManager {
                 String code = parts[0];
                 String title = parts[1];
                 String desc = parts[2];
-                String instructor = parts[3];
+                String instructorID = parts[3];
 
                 int capacity = Integer.parseInt(parts[4]);
-                int enrolled = Integer.parseInt(parts[5]);
-                String schedule = parts[6];
+                String schedule = parts[5];
 
                 ArrayList<String> prereqList = new ArrayList<>();
 
-                if (!parts[7].equalsIgnoreCase("None")) {
-                    String[] prereqArray = parts[7].split(";");
+                if (!parts[6].equalsIgnoreCase("None")) {
+                    String[] prereqArray = parts[7].split("|");
                     for (String p : prereqArray) {
                         prereqList.add(p.trim());
                     }
                 }
 
+                int enrolled = Integer.parseInt(parts[7]);
                 int credits = Integer.parseInt(parts[8]);
 
-                Course course = new Course(code, title, desc, instructor, capacity, enrolled, schedule, credits, prereqList);
+                Course course = new Course(code, title, desc, instructorID, capacity, enrolled, schedule, credits, prereqList);
 
                 courseList.add(course);
 
@@ -131,7 +131,7 @@ public class DataManager {
                 if (user instanceof Student) {
                     Student s = (Student) user;
 
-                    
+
                     StringBuilder reg = new StringBuilder("REG:");
                     if (s.getRegisteredCourses().isEmpty()) {
                         reg.append("None");
