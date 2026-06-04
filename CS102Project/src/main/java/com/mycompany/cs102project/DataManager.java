@@ -10,11 +10,12 @@ public class DataManager {
 
     public static ArrayList<Course> courseList = new ArrayList<>();
     public static ArrayList<User> userList = new ArrayList<>();
+    public static ArrayList<SpecialRequest> specialRequestsList = new ArrayList<>();
 
-    public static void loadCoursesFromFile(String filename) {
+    public static void loadCoursesFromFile(String fileName) {
 
         try {
-            Scanner InFile = new Scanner(new File(filename));
+            Scanner InFile = new Scanner(new File(fileName));
             InFile.nextLine();
             while (InFile.hasNextLine()) {
                 String line = InFile.nextLine();
@@ -47,7 +48,7 @@ public class DataManager {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + filename);
+            System.out.println("File not found: " + fileName);
         }
 
     }
@@ -70,9 +71,9 @@ public class DataManager {
         return null;
     }
 
-    public static void loadUsersFromFile(String filename) {
+    public static void loadUsersFromFile(String fileName) {
         try {
-            Scanner inFile = new Scanner(new File(filename));
+            Scanner inFile = new Scanner(new File(fileName));
 
             while (inFile.hasNextLine()) {
                 String line = inFile.nextLine();
@@ -134,36 +135,40 @@ public class DataManager {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + filename);
+            System.out.println("File not found: " + fileName);
         }
     }
 
-    public static void loadSpecialRequestFromFile(String fileName) throws FileNotFoundException {
+    public static void loadSpecialRequestFromFile(String fileName)  {
 
-        Scanner inFile = new Scanner(new File(fileName));
-        inFile.nextLine();
+        try {
+            Scanner inFile = new Scanner(new File(fileName));
+            inFile.nextLine();
 
-        while (inFile.hasNextLine()) {
+            while (inFile.hasNextLine()) {
 
-            String line = inFile.nextLine();
+                String line = inFile.nextLine();
 
-            String[] parts = line.split(",");
+                String[] parts = line.split(",");
 
-            String studentId = parts[0];
-            String courseCode = parts[1];
-            String message = parts[2];
-            String status = parts[3];
-            String advisorComment = parts[4];
+                String studentId = parts[0];
+                String courseCode = parts[1];
+                String message = parts[2];
+                String status = parts[3];
+                String advisorComment = parts[4];
 
-            SpecialRequest temp = new SpecialRequest(studentId, courseCode, message);
+                SpecialRequest temp = new SpecialRequest(studentId, courseCode, message);
 
-            temp.setAdvisorcomment(advisorComment);
-            temp.setStatus(status);
+                temp.setAdvisorcomment(advisorComment);
+                temp.setStatus(status);
 
-            Student s = (Student) findUser(studentId);
-            s.getRequests().add(temp);
+                specialRequestsList.add(temp);
+                Student s = (Student) findUser(studentId);
+                s.getRequests().add(temp);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + fileName);
         }
-
     }
 
     public static void saveCoursesToFile(String fileName) {
@@ -190,9 +195,7 @@ public class DataManager {
             System.out.println("error occurred");
         }
 
-
     }
-
 
     public static void saveUsersToFile(String filename) {
         try {
@@ -206,7 +209,7 @@ public class DataManager {
 
                     Student s = (Student) user;
 
-                    Pr.print("Student," + s.getId() + "," + s.getPhone() + "," + s.getAddress() + "," + s.getMajor() + ",");
+                    Pr.print("Student," + s.getId() + "," + s.getName() + "," + s.getPhone() + "," + s.getAddress() + "," + s.getMajor() + ",");
 
                     if (s.getRegisteredCourses().isEmpty()) Pr.print("None");
                     int i = 1;
@@ -266,4 +269,18 @@ public class DataManager {
         }
     }
 
+    public static void saveSpecialRequestsToFile(String fileName) {
+
+        try {
+            PrintWriter Pr = new PrintWriter(new File(fileName));
+            Pr.println("Student Id, course code, message, status, advisor comment");
+            for (SpecialRequest sp : specialRequestsList) {
+                Pr.println(sp.getStudentId() + "," + sp.getCourseCode() + "," + sp.getMessage() + "," + sp.getStatus() + "," + sp.getAdvisorcomment());
+            }
+            Pr.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("error occurred");
+        }
+
+    }
 }
