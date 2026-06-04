@@ -11,7 +11,7 @@ public class DataManager {
 
     public static ArrayList<Course> courseList = new ArrayList<>();
     public static ArrayList<User> userList = new ArrayList<>();
-
+    
     public static void loadCoursesFromFile(String filename) {
 
         try {
@@ -32,7 +32,7 @@ public class DataManager {
                 ArrayList<String> prereqList = new ArrayList<>();
 
                 if (!parts[6].equalsIgnoreCase("None")) {
-                    String[] prereqArray = parts[7].split("|");
+                    String[] prereqArray = parts[7].split("\\|");
                     for (String p : prereqArray) {
                         prereqList.add(p.trim());
                     }
@@ -77,6 +77,11 @@ public class DataManager {
 
             while (inFile.hasNextLine()) {
                 String line = inFile.nextLine();
+
+                if (line.trim().isEmpty() || line.startsWith("\"") || line.startsWith("Role")) {
+                    continue;
+                }
+
                 String[] parts = line.split(",");
 
                 String role = parts[0];
@@ -92,22 +97,38 @@ public class DataManager {
 
                     if (!parts[6].equalsIgnoreCase("None")) {
 
-                        String[] regcourses = parts[6].split("|");
+                        String[] regcourses = parts[6].split("\\|");
 
-                        for(String coures: regcourses){
-                            
+                        for (String regcourse : regcourses) {
+                            student.getRegisteredCourses().add(findCourse(regcourse));
+                        }
+
+                    }
+
+                    if (!parts[7].equalsIgnoreCase("None")) {
+                        String[] completedCourses = parts[7].split("\\|");
+
+                        for (String compcourse : completedCourses) {
+                            student.getCompletedCourses().add(findCourse(compcourse));
                         }
                     }
 
-
-
-
-
-
-
                     userList.add(student);
                 } else if (role.equalsIgnoreCase("Advisor")) {
-                    userList.add(new Advisor(id, name, phone, address));
+
+                    Advisor advisor = new Advisor(id, name, phone, address);
+
+                    if (!parts[5].equalsIgnoreCase("None")){
+
+                        String[] studentIds = parts[5].split("\\|");
+
+                        for (String studentId : studentIds){
+                            advisor.addStudentToList((Student) findUser(studentId));
+                        }
+                    }
+
+                    userList.add(advisor);
+
                 } else if (role.equalsIgnoreCase("Admin")) {
                     userList.add(new Admin(id, name, phone, address));
                 }
