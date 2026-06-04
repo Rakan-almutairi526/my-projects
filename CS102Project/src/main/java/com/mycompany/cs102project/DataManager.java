@@ -11,7 +11,7 @@ public class DataManager {
 
     public static ArrayList<Course> courseList = new ArrayList<>();
     public static ArrayList<User> userList = new ArrayList<>();
-
+    
     public static void loadCoursesFromFile(String filename) {
 
         try {
@@ -32,7 +32,7 @@ public class DataManager {
                 ArrayList<String> prereqList = new ArrayList<>();
 
                 if (!parts[6].equalsIgnoreCase("None")) {
-                    String[] prereqArray = parts[7].split("\\|");
+                    String[] prereqArray = parts[6].split("\\|");
                     for (String p : prereqArray) {
                         prereqList.add(p.trim());
                     }
@@ -167,7 +167,7 @@ public class DataManager {
 
     }
 
-    public static void saveCourses(String fileName) {
+    public static void saveCoursesToFile(String fileName) {
 
         try {
             PrintWriter Pr = new PrintWriter(new File(fileName));
