@@ -11,7 +11,7 @@ public class DataManager {
 
     public static ArrayList<Course> courseList = new ArrayList<>();
     public static ArrayList<User> userList = new ArrayList<>();
-    
+
     public static void loadCoursesFromFile(String filename) {
 
         try {
@@ -138,6 +138,35 @@ public class DataManager {
             System.out.println("File not found: " + filename);
         }
     }
+
+    public static void loadSpecialRequestFromFile(String fileName) throws FileNotFoundException {
+
+        Scanner inFile = new Scanner(new File(fileName));
+        inFile.nextLine();
+
+        while(inFile.hasNextLine()){
+
+            String line = inFile.nextLine();
+
+            String[] parts = line.split(",");
+
+            String studentId = parts[0];
+            String courseCode = parts[1];
+            String message = parts[2];
+            String status = parts[3];
+            String advisorComment = parts[4];
+
+            SpecialRequest temp = new SpecialRequest(studentId, courseCode, message);
+
+            temp.setAdvisorcomment(advisorComment);
+            temp.setStatus(status);
+
+            Student s = (Student) findUser(studentId);
+            s.getRequests().add(temp);
+        }
+
+    }
+
 
     public static void saveUsersToFile(String filename) {
         try {
