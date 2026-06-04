@@ -7,7 +7,7 @@ public class Student extends User {
     private String major;
     private ArrayList<Course> registeredCourses;
     private ArrayList<SpecialRequest> requests;
-    private ArrayList<String> completedCourses;
+    private ArrayList<Course> completedCourses;
 
     public Student(String id, String name, String phone, String address, String major) {
         super(id, name, phone, address);
@@ -33,7 +33,7 @@ public class Student extends User {
         return major;
     }
 
-    public ArrayList<String> getCompletedCourses() {
+    public ArrayList<Course> getCompletedCourses() {
         return completedCourses;
     }
 
@@ -132,9 +132,6 @@ public class Student extends User {
         requests.add(request);
     }
 
-    public void addCompletedCourse(String courseCode) {
-        completedCourses.add(courseCode);
-    }
 
     public void showPrerequisitesRecursive(String courseCode) {
         System.out.println("prerequisites for " + courseCode);

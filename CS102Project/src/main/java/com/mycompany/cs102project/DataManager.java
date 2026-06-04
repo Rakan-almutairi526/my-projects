@@ -90,24 +90,20 @@ public class DataManager {
 
                     Student student = new Student(id, name, phone, address, major);
 
-                    if (parts.length > 6) {
-                        String regField = parts[6];
+                    if (!parts[6].equalsIgnoreCase("None")) {
 
-                        if (regField.startsWith("REG:")) {
-                            String codes = regField.substring(4);
+                        String[] regcourses = parts[6].split("|");
 
-                            if (!codes.equalsIgnoreCase("None")) {
-                                String[] allCodes = codes.split(";");
-
-                                for (String code : allCodes) {
-                                    Course c = findCourse(code);
-                                    if (c != null) {
-                                        student.getRegisteredCourses().add(c);
-                                    }
-                                }
-                            }
+                        for(String coures: regcourses){
+                            
                         }
                     }
+
+
+
+
+
+
 
                     userList.add(student);
                 } else if (role.equalsIgnoreCase("Advisor")) {
