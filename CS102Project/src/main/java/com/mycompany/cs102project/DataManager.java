@@ -2,7 +2,6 @@ package com.mycompany.cs102project;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,7 +10,7 @@ public class DataManager {
 
     public static ArrayList<Course> courseList = new ArrayList<>();
     public static ArrayList<User> userList = new ArrayList<>();
-    
+
     public static void loadCoursesFromFile(String filename) {
 
         try {
@@ -78,7 +77,7 @@ public class DataManager {
             while (inFile.hasNextLine()) {
                 String line = inFile.nextLine();
 
-                if (line.trim().isEmpty() || line.startsWith("\"") || line.startsWith("Role")) {
+                if (line.trim().isEmpty() || line.startsWith("-") || line.startsWith("Role")) {
                     continue;
                 }
 
@@ -178,12 +177,12 @@ public class DataManager {
                 if (course.getPrerequisites().isEmpty()) Pr.print("None");
 
                 int i = 1;
-                for (String prereq : course.getPrerequisites()){
+                for (String prereq : course.getPrerequisites()) {
                     Pr.print(prereq);
                     if (i < course.getPrerequisites().size()) Pr.print("|");
                     i++;
                 }
-                Pr.println( "," + course.getEnrolledStudentCount() + "," + course.getCredits());
+                Pr.println("," + course.getEnrolledStudentCount() + "," + course.getCredits());
 
             }
             Pr.close();
@@ -199,35 +198,68 @@ public class DataManager {
         try {
             PrintWriter Pr = new PrintWriter(new File(filename));
 
-            for (User user : userList) {
+            Pr.println("-Student-");
+            Pr.println("Role, Id, Name, phone, address, major, registered courses, completed courses");
 
+            for (User user : userList) {
                 if (user instanceof Student) {
+
                     Student s = (Student) user;
 
+                    Pr.print("Student," + s.getId() + "," + s.getPhone() + "," + s.getAddress() + "," + s.getMajor() + ",");
 
-                    StringBuilder reg = new StringBuilder("REG:");
-                    if (s.getRegisteredCourses().isEmpty()) {
-                        reg.append("None");
-                    } else {
-                        for (int i = 0; i < s.getRegisteredCourses().size(); i++) {
-                            reg.append(s.getRegisteredCourses().get(i).getCourseCode());
-                            if (i < s.getRegisteredCourses().size() - 1) {
-                                reg.append(";");
-                            }
-                        }
+                    if (s.getRegisteredCourses().isEmpty()) Pr.print("None");
+                    int i = 1;
+                    for (Course regcourse : s.getRegisteredCourses()) {
+                        Pr.print(regcourse.getCourseCode());
+                        if (i < s.getRegisteredCourses().size()) Pr.print("|");
+                        i++;
                     }
 
-                    Pr.println("Student," + s.getId() + "," + s.getName() + "," + s.getPhone() + ","
-                            + s.getAddress() + "," + s.getMajor() + "," + reg.toString());
-                } else if (user instanceof Advisor) {
+                    Pr.print(",");
+
+                    if (s.getCompletedCourses().isEmpty()) Pr.print("None");
+                    int i2 = 1;
+                    for (Course compcourse : s.getCompletedCourses()) {
+                        Pr.print(compcourse.getCourseCode());
+                        if (i2 < s.getCompletedCourses().size()) Pr.print("|");
+                        i2++;
+                    }
+                    Pr.println();
+                }
+            }
+
+            Pr.println("-Advisor-");
+            Pr.println("Role, Id, Name, Phone, Address, Assigned Students Ids");
+
+            for (User user : userList) {
+                if (user instanceof Advisor) {
+
                     Advisor a = (Advisor) user;
-                    Pr.println("Advisor," + a.getId() + "," + a.getName() + "," + a.getPhone() + "," + a.getAddress());
-                } else if (user instanceof Admin) {
+                    Pr.print("Advisor," + a.getId() + "," + a.getName() + "," + a.getPhone() + "," + a.getAddress() + ",");
+
+                    if (a.getStudentList().isEmpty()) Pr.print("None");
+
+                    int i = 1;
+                    for (Student s : a.getStudentList()) {
+                        Pr.print(s.getId());
+                        if (i < a.getStudentList().size()) Pr.print("|");
+                        i++;
+                    }
+                    Pr.println();
+
+                }
+            }
+
+            Pr.println("-Admin-");
+            Pr.println("Role, Id, Name, Phone, Address");
+
+            for (User user : userList) {
+                if (user instanceof Admin) {
                     Admin a = (Admin) user;
                     Pr.println("Admin," + a.getId() + "," + a.getName() + "," + a.getPhone() + "," + a.getAddress());
                 }
             }
-
             Pr.close();
         } catch (Exception e) {
             System.out.println("Error saving users file.");
