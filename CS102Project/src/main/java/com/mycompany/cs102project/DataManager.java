@@ -118,11 +118,11 @@ public class DataManager {
 
                     Advisor advisor = new Advisor(id, name, phone, address);
 
-                    if (!parts[5].equalsIgnoreCase("None")){
+                    if (!parts[5].equalsIgnoreCase("None")) {
 
                         String[] studentIds = parts[5].split("\\|");
 
-                        for (String studentId : studentIds){
+                        for (String studentId : studentIds) {
                             advisor.addStudentToList((Student) findUser(studentId));
                         }
                     }
@@ -144,7 +144,7 @@ public class DataManager {
         Scanner inFile = new Scanner(new File(fileName));
         inFile.nextLine();
 
-        while(inFile.hasNextLine()){
+        while (inFile.hasNextLine()) {
 
             String line = inFile.nextLine();
 
@@ -164,6 +164,33 @@ public class DataManager {
             Student s = (Student) findUser(studentId);
             s.getRequests().add(temp);
         }
+
+    }
+
+    public static void saveCourses(String fileName) {
+
+        try {
+            PrintWriter Pr = new PrintWriter(new File(fileName));
+            Pr.println("Course code, course title, course description, instructor ID, capacity, schedule, prerequisites, enrolled students, credits");
+            for (Course course : courseList) {
+                Pr.print(course.getCourseCode() + "," + course.getCourseTitle() + "," + course.getCourseDescription() + "," + course.getInstructorId() + "," + course.getCapacity() + "," + course.getSchedule() + ",");
+
+                if (course.getPrerequisites().isEmpty()) Pr.print("None");
+
+                int i = 1;
+                for (String prereq : course.getPrerequisites()){
+                    Pr.print(prereq);
+                    if (i < course.getPrerequisites().size()) Pr.print("|");
+                    i++;
+                }
+                Pr.println( "," + course.getEnrolledStudentCount() + "," + course.getCredits());
+
+            }
+            Pr.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("error occurred");
+        }
+
 
     }
 
