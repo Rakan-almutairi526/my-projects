@@ -132,23 +132,6 @@ public class Student extends User {
         requests.add(request);
     }
 
-
-    public void showPrerequisitesRecursive(String courseCode) {
-        System.out.println("prerequisites for " + courseCode);
-        listPrerequisitesRecursive(courseCode);
-    }
-
-    private void listPrerequisitesRecursive(String courseCode) {
-        Course course = DataManager.findCourse(courseCode);
-        if (course == null) {
-            return;
-        }
-        for (String prerequisite : course.getPrerequisites()) {
-            System.out.println("- " + prerequisite);
-            showPrerequisitesRecursive(prerequisite);
-        }
-    }
-
     @Override
     public String toString() {
         return super.toString() + "\nMajor: " + getMajor() + "\nRegistered Course: " + registeredCourses.size();

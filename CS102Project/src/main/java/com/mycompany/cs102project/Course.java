@@ -123,6 +123,26 @@ public class Course {
         return false;
     }
 
+    public void showAllPrerequisites() {
+        System.out.println("prerequisites for " + this.courseCode);
+        listPrerequisitesRecursive(this.courseCode, 1);
+    }
+
+    private void listPrerequisitesRecursive(String courseCode, int level) {
+        Course course = DataManager.findCourse(courseCode);
+        if (course == null || course.getPrerequisites().isEmpty()) {
+            return;
+        }
+        for (String prerequisite : course.getPrerequisites()) {
+
+            for (int i = 1; i < level; i++){
+                System.out.print("   ");
+            }
+            System.out.println("- " + prerequisite);
+            listPrerequisitesRecursive(prerequisite, level + 1);
+        }
+    }
+
     @Override
     public String toString() {
         return "Course code: " + getCourseCode() + " Title: " + getCourseTitle() + "\n" + "Instructor ID: " + getInstructorId() + "\n" + "Credits: " + getCredits() + "\n" + "Capacity: " + getCapacity() + "\n" + "Schedule: " + getSchedule() + "\n";
