@@ -37,48 +37,105 @@ public class Student extends User {
         return completedCourses;
     }
 
-    // private bc only needed here not in any other class
-    private boolean hasScheduleConflicts(Course newCourse) {
-        for (Course course : registeredCourses) {
-            if (course.getSchedule().equalsIgnoreCase(newCourse.getSchedule())) {
-                return true;
+    private boolean hasScheduleConflicts(Course course) {
+
+
+        for (Course regCourse : registeredCourses) {
+            if (regCourse.getSchedule().equalsIgnoreCase(course.getSchedule())) {
+               return true;
             }
         }
         return false;
     }
 
-    // same thing here
-    private boolean hasCompletedPrerequists(Course course) {
-        for (String prerequist : course.getPrerequisites()) {
-            if (!completedCourses.contains(prerequist)) {
-                return false;
+    private String getScheduleConflicts(Course course){
+
+        String courses = "";
+
+        for (Course c : getRegisteredCourses()){
+
+            if (c.getSchedule().equalsIgnoreCase(course.getSchedule())){
+                courses += " " + c.getCourseCode();
             }
+        }
+
+        return courses;
+    }
+
+    private boolean hasCompletedPrerequisites(Course course) {
+
+
+        boolean found;
+        for (String prerequist : course.getPrerequisites()) {
+
+            found = false;
+            for (Course completedCourse : getCompletedCourses()){
+                if (completedCourse.getCourseCode().equalsIgnoreCase(prerequist)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) return false;
         }
         return true;
     }
 
-    public boolean registerForCourse(Course course) {
+    private String getMissingPrerequisite(Course course){
+
+        String missingPre = "";
+        boolean found;
+
+        for (String prereq : course.getPrerequisites()){
+
+            found = false;
+            for (Course c : getCompletedCourses()){
+                if (c.getCourseCode().equalsIgnoreCase(prereq)){
+                   found = true;
+                   break;
+                }
+            }
+            if (!found){
+                missingPre += " " + prereq;
+            }
+        }
+        return missingPre;
+    }
+
+    public boolean registerForCourse(String courseCode) {
+
+        Course course = DataManager.findCourse(courseCode);
+
+        if (course == null){
+            System.out.println("invalid input, make sure you inter a correct course code");
+            System.out.println("Registration Failed");
+            return false;
+        }
         if (getRegisteredCourses().contains(course)) {
+            System.out.println("you are already registered in this course");
+            System.out.println("Registration Failed");
             return false;
         }
         if (!course.hasAvailableSeat()) {
+            System.out.println("course does not have a seat");
+            System.out.println("Registration Failed");
             return false;
         }
 
         if (hasScheduleConflicts(course)) {
+            System.out.println("Registration Failed");
             return false;
         }
 
-        if (!hasCompletedPrerequists(course)) {
+        if (!hasCompletedPrerequisites(course)) {
+            System.out.println("Registration Failed");
             return false;
         }
 
-        if (course.enrollOneStudent()) {
-            registeredCourses.add(course);
-            DataManager.saveUsersToFile("users_file.csv");
-            return true;
-        }
-        return false;
+        course.enrollOneStudent();
+        registeredCourses.add(course);
+        DataManager.saveUsersToFile("users.txt");
+
+        return true;
     }
 
     public boolean dropCourse(Course course) {
