@@ -62,7 +62,7 @@ public class Advisor extends User {
     }
 
     @Override
-    public void performeAction(int choice) {
+    public void performAction(int choice) {
 
     }
 }

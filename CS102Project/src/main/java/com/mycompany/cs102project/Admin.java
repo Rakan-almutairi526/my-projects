@@ -55,7 +55,7 @@ public class Admin extends User {
     }
 
     @Override
-    public void performeAction(int choice) {
+    public void performAction(int choice) {
 
     }
 }
