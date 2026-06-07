@@ -67,7 +67,7 @@ public class SpecialRequest {
 
     @Override
     public String toString() {
-        return "Special request\n" + "Student id: " + getStudentId() + "\ncourseCode: " + getCourseCode() + "\nStudent's message: " + getMessage() + "\nsSatus: " + getStatus() + "Advisor comment: " + getAdvisorcomment();
+        return "Special request\n" + "Student id: " + getStudentId() + "\ncourseCode: " + getCourseCode() + "\nStudent's message: " + getMessage() + "\nsStatus: " + getStatus() + "Advisor comment: ";
     }
 
 }
