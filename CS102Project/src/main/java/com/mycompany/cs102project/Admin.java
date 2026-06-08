@@ -36,12 +36,12 @@ public class Admin extends User {
 
     @Override
     public void showRoleSummary() {
-        System.out.println("---- Admin Account Summary ---");
+        System.out.println("---- Admin Account ---");
         System.out.println("Name: " + getName());
         System.out.println("ID: " + getId());
         System.out.println("Total users: " + DataManager.userList.size());
         System.out.println("Total courses: " + DataManager.courseList.size());
-        System.out.println("--------------------------------");
+        System.out.println("--------------------------------\n\n");
     }
 
     @Override
@@ -49,13 +49,4 @@ public class Admin extends User {
         return super.toString() + "\nRole: Admin";
     }
 
-    @Override
-    public void viewMenu() {
-
-    }
-
-    @Override
-    public void performAction(int choice) {
-
-    }
 }

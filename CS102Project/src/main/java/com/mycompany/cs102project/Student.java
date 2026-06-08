@@ -1,6 +1,7 @@
 package com.mycompany.cs102project;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Student extends User {
 
@@ -48,8 +49,9 @@ public class Student extends User {
         return false;
     }
 
-    private String getScheduleConflicts(Course course) {
+    private String getScheduleConflicts(String courseCode) {
 
+        Course course = DataManager.findCourse(courseCode);
         String courses = "";
 
         for (Course c : getRegisteredCourses()) {
@@ -59,7 +61,7 @@ public class Student extends User {
             }
         }
 
-        return courses;
+        return courses.trim();
     }
 
     private boolean hasCompletedPrerequisites(Course course) {
@@ -80,8 +82,10 @@ public class Student extends User {
         return true;
     }
 
-    private String getMissingPrerequisite(Course course) {
+    private String getMissingPrerequisite(String courseCode) {
 
+
+        Course course = DataManager.findCourse(courseCode);
         String missingPre = "";
         boolean found;
 
@@ -98,7 +102,7 @@ public class Student extends User {
                 missingPre += " " + prereq;
             }
         }
-        return missingPre;
+        return missingPre.trim();
     }
 
     private boolean isCourseRegistered(Course course) {
@@ -120,22 +124,19 @@ public class Student extends User {
         if (isCourseRegistered(course)) {
             return "ALREADY_REGISTERED";
         }
+        if (!hasCompletedPrerequisites(course)) {
+            return "MISSING_PREREQUISITE";
+        }
         if (!course.hasAvailableSeat()) {
             return "NOT_ENOUGH_SEATS";
         }
-
         if (hasScheduleConflicts(course)) {
             return "SCHEDULE_CONFLICT";
         }
 
-        if (!hasCompletedPrerequisites(course)) {
-            return "MISSING_PREREQUISITE";
-        }
 
         course.enrollOneStudent();
         registeredCourses.add(course);
-        DataManager.saveUsersToFile("users.txt");
-        DataManager.saveCoursesToFile("courses.txt");
         return "SUCCESS";
     }
 
@@ -148,8 +149,6 @@ public class Student extends User {
         if (isCourseRegistered(course)) {
             registeredCourses.remove(course);
             course.dropOneStudent();
-            DataManager.saveUsersToFile("users.txt");
-            DataManager.saveCoursesToFile("courses.txt");
             return "SUCCESS";
         }
         return "NOT_REGISTERED";
@@ -172,12 +171,12 @@ public class Student extends User {
 
     @Override
     public void showRoleSummary() {
-        System.out.println("---- Student Account Summary ---");
+        System.out.println("---- Student Account ---");
         System.out.println("Name: " + getName());
         System.out.println("ID: " + getId());
         System.out.println("Major: " + getMajor());
         System.out.println("Registered Courses: " + registeredCourses.size());
-        System.out.println("--------------------------------");
+        System.out.println("--------------------------------\n\n");
     }
 
 
@@ -185,9 +184,9 @@ public class Student extends User {
         for (Course course : DataManager.courseList) {
             System.out.print(course);
             if (course.hasAvailableSeat()) {
-                System.out.println("no available seats");
-            } else {
                 System.out.println("available seats");
+            } else {
+                System.out.println("no available seats");
             }
         }
     }
@@ -204,18 +203,19 @@ public class Student extends User {
         return "SUCCESS";
     }
 
-    private void ShowSpecialRequest(){
+    private void ShowSpecialRequest() {
 
-        if (requests.isEmpty()){
-            System.out.println("No special Found");
-        }else {
+        if (requests.isEmpty()) {
+            System.out.println("No special request Found");
+        } else {
 
-            for (SpecialRequest request : getRequests()){
+            for (SpecialRequest request : getRequests()) {
 
                 System.out.println(request);
-                if (request.getAdvisorcomment() == null){
+                System.out.print("Advisor comment: ");
+                if (request.getAdvisorcomment() == null) {
                     System.out.println("Advisor has not replied yet");
-                }else {
+                } else {
                     System.out.println(request.getAdvisorcomment());
                 }
             }
@@ -226,29 +226,5 @@ public class Student extends User {
     @Override
     public String toString() {
         return super.toString() + "\nMajor: " + getMajor() + "\nRegistered Course: " + registeredCourses.size();
-    }
-
-    @Override
-    public void viewMenu() {
-        System.out.println("\n-------------- Student Menu --------------");
-        System.out.println("Welcome, " + getName() + " (ID: " + getId() + ")");
-        System.out.println("Please choose an option:");
-        System.out.println("1. Register for a Course");
-        System.out.println("2. Drop a Course");
-        System.out.println("3. View Registered Courses");
-        System.out.println("4. View Schedule");
-        System.out.println("5. View Available Courses");
-        System.out.println("6. Submit a Special Request");
-        System.out.println("7. Show Prerequisites Of a Course");
-        System.out.println("8. Update Personal Information");
-        System.out.println("9. Show Special Requests Submitted");
-        System.out.println("0. Logout");
-        System.out.println("------------------------------------------");
-        System.out.print("Enter your choice: ");
-    }
-
-    @Override
-    public void performAction(int choice) {
-
     }
 }

@@ -1,6 +1,6 @@
 package com.mycompany.cs102project;
 
-public abstract class User implements IUserActions {
+public abstract class User {
 
     private String id;
     private String name;
@@ -46,13 +46,7 @@ public abstract class User implements IUserActions {
         this.address = address;
     }
 
-    public void updatePersonalInfo(String phone, String address) {
-        this.phone = phone;
-        this.address = address;
-    }
-
     public abstract void showRoleSummary();
-
 
     @Override
     public String toString() {

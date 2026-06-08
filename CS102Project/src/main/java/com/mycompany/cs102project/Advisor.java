@@ -43,11 +43,11 @@ public class Advisor extends User {
 
     @Override
     public void showRoleSummary() {
-        System.out.println("---- Advisor Account Summary ---");
+        System.out.println("---- Advisor Account ---");
         System.out.println("Name: " + getName());
         System.out.println("ID: " + getId());
         System.out.println("Students assigned: " + getStudentList().size());
-        System.out.println("--------------------------------");
+        System.out.println("--------------------------------\n\n");
     }
 
 
@@ -56,13 +56,4 @@ public class Advisor extends User {
         return super.toString() + "\nRole: Advisor" + "\nAssigned Students: " + getStudentList().size();
     }
 
-    @Override
-    public void viewMenu() {
-
-    }
-
-    @Override
-    public void performAction(int choice) {
-
-    }
 }

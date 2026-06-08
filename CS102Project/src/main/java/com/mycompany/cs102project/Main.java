@@ -50,16 +50,18 @@ public class Main {
 
         do {
             System.out.println("\n-------------- Student Menu --------------");
-            System.out.println("Welcome, " + student.getName() + " (ID: " + student.getId() + ")");
+            System.out.println("Welcome, " + getName() + " (ID: " + getId() + ")");
             System.out.println("Please choose an option:");
             System.out.println("1. Register for a Course");
             System.out.println("2. Drop a Course");
-            System.out.println("3. View My Registered Courses");
-            System.out.println("4. View My Schedule");
-            System.out.println("5. View All Available Courses");
+            System.out.println("3. View Registered Courses");
+            System.out.println("4. View Schedule");
+            System.out.println("5. View Available Courses");
             System.out.println("6. Submit a Special Request");
-            System.out.println("7. Show Prerequisites (Recursive)");
-            System.out.println("8. Logout");
+            System.out.println("7. Show Prerequisites Of a Course");
+            System.out.println("8. Update Personal Information");
+            System.out.println("9. Show Special Requests Submitted");
+            System.out.println("0. Logout");
             System.out.println("------------------------------------------");
             System.out.print("Enter your choice: ");
 
