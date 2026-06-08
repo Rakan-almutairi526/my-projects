@@ -223,6 +223,10 @@ public class Student extends User {
         }
     }
 
+    private void updatePersonalInfo(String address, String phone){
+        this.setAddress(address);
+        this.setPhone(phone);
+    }
     @Override
     public String toString() {
         return super.toString() + "\nMajor: " + getMajor() + "\nRegistered Course: " + registeredCourses.size();
