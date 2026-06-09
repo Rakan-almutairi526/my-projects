@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Main {
 
+    /*
     public static void main(String[] args) {
 
         DataManager.loadCoursesFromFile("C:\\Users\\hgfdo\\OneDrive\\desktop\\CsProject\\courses_file.csv");
@@ -439,5 +440,5 @@ public class Main {
 
         } while (choice != 7);
     }
-
+*/
 }

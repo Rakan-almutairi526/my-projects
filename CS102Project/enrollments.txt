@@ -1,4 +1,4 @@
-StudentIds|Registered courses
+StudentIds|Registered Courses
 S001|CS101,MATH101
 S002|CS102
 S003|None

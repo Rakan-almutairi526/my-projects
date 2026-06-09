@@ -139,7 +139,7 @@ public class DataManager {
         }
     }
 
-    public static void loadSpecialRequestFromFile(String fileName)  {
+    public static void loadSpecialRequestFromFile(String fileName) {
 
         try {
             Scanner inFile = new Scanner(new File(fileName));
@@ -178,25 +178,67 @@ public class DataManager {
             Scanner inFile = new Scanner(fileName);
             inFile.nextLine();
 
-            while (inFile.hasNextLine()){
+            while (inFile.hasNextLine()) {
 
                 String line = inFile.nextLine();
                 String[] parts = line.split("\\|");
 
                 Student s = (Student) findUser(parts[1]);
 
+                if (parts[2].equalsIgnoreCase("None")) continue;
 
+                String[] coursesCode = parts[2].split(",");
 
+                for (String courseCode : coursesCode) {
+
+                    Course course = findCourse(courseCode);
+                    s.getRegisteredCourses().add(course);
+                    course.getStudentList().add(s);
+                }
             }
 
-
-
-
-
+        } catch (Exception e) {
+            System.out.println("File not found");
+            ;
         }
-
     }
 
+    public static void saveEnrollments(String fileName) {
+
+        try {
+            PrintWriter Pr = new PrintWriter(new File(fileName));
+
+            Pr.println("StudentIds|Registered Courses");
+
+            int i = 1;
+            for (User user : userList) {
+
+                if (user instanceof Student) {
+                    Student temp = (Student) user;
+                    Pr.print(temp.getId() + "|");
+
+                    if (temp.getRegisteredCourses().isEmpty()) {
+                        Pr.println("None");
+                        continue;
+                    }
+
+                    for (Course course : temp.getRegisteredCourses()) {
+                        Pr.print(course.getCourseCode());
+
+                        if (i < temp.getRegisteredCourses().size()) Pr.print(",");
+                        i++;
+                    }
+                    Pr.println();
+                }
+
+            }
+            Pr.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 
     public static void saveCoursesToFile(String fileName) {
 
