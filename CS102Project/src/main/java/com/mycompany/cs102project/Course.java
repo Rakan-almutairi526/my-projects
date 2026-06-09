@@ -13,6 +13,7 @@ public class Course {
     private String schedule;
     private int credits;
     private ArrayList<String> prerequisites;
+    private ArrayList<Student> studentList;
 
     public Course(String courseCode, String courseTitle, String CourseDescription, String instructorId, int capacity, int enrolledStudentCount, String schedule, int credits, ArrayList<String> prerequisites) {
         this.courseCode = courseCode;
@@ -61,7 +62,9 @@ public class Course {
     public ArrayList<String> getPrerequisites() {
         return prerequisites;
     }
-
+    public ArrayList<Student> getStudentList() {
+        return studentList;
+    }
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
     }
@@ -93,7 +96,13 @@ public class Course {
     public void setCredits(int credits) {
         this.credits = credits;
     }
+    public void setPrerequisites(ArrayList<String> prerequisites) {
+        this.prerequisites = prerequisites;
+    }
 
+    public void setStudentList(ArrayList<Student> studentList) {
+        this.studentList = studentList;
+    }
     public void addPrerequisites(String courseCode) {
         this.prerequisites.add(courseCode);
     }
@@ -107,17 +116,19 @@ public class Course {
         return false;
     }
 
-    public boolean enrollOneStudent() {
+    public boolean enrollOneStudent(Student student) {
         if (hasAvailableSeat()) {
             enrolledStudentCount++;
+            getStudentList().add(student);
             return true;
         }
         return false;
     }
 
-    public boolean dropOneStudent() {
+    public boolean dropOneStudent(Student student) {
         if (enrolledStudentCount > 0) {
             enrolledStudentCount--;
+            getStudentList().remove(student);
             return true;
         }
         return false;

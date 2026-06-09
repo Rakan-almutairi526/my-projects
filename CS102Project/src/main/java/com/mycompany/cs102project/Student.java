@@ -135,7 +135,7 @@ public class Student extends User {
         }
 
 
-        course.enrollOneStudent();
+        course.enrollOneStudent(this);
         registeredCourses.add(course);
         return "SUCCESS";
     }
@@ -148,7 +148,7 @@ public class Student extends User {
 
         if (isCourseRegistered(course)) {
             registeredCourses.remove(course);
-            course.dropOneStudent();
+            course.dropOneStudent(this);
             return "SUCCESS";
         }
         return "NOT_REGISTERED";

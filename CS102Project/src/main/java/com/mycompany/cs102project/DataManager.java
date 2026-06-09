@@ -171,6 +171,33 @@ public class DataManager {
         }
     }
 
+    public static void loadEnrollments(String fileName) {
+
+        try {
+
+            Scanner inFile = new Scanner(fileName);
+            inFile.nextLine();
+
+            while (inFile.hasNextLine()){
+
+                String line = inFile.nextLine();
+                String[] parts = line.split("\\|");
+
+                Student s = (Student) findUser(parts[1]);
+
+
+
+            }
+
+
+
+
+
+        }
+
+    }
+
+
     public static void saveCoursesToFile(String fileName) {
 
         try {
