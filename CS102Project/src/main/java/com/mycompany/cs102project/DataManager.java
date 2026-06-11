@@ -71,6 +71,14 @@ public class DataManager {
         return null;
     }
 
+    public static SpecialRequest findRequest(String Id){
+
+        for (SpecialRequest request : specialRequestsList){
+            if (request.getId().equalsIgnoreCase(Id)) return request;
+        }
+        return null;
+    }
+
     public static void loadUsersFromFile(String fileName) {
         try {
             Scanner inFile = new Scanner(new File(fileName));
@@ -151,16 +159,14 @@ public class DataManager {
 
                 String[] parts = line.split(",");
 
-                String studentId = parts[0];
-                String courseCode = parts[1];
-                String message = parts[2];
-                String status = parts[3];
-                String advisorComment = parts[4];
+                String requestId = parts[0];
+                String studentId = parts[1];
+                String courseCode = parts[2];
+                String message = parts[3];
+                String status = parts[4];
+                String advisorComment = parts[5];
 
-                SpecialRequest temp = new SpecialRequest(studentId, courseCode, message);
-
-                temp.setAdvisorcomment(advisorComment);
-                temp.setStatus(status);
+                SpecialRequest temp = new SpecialRequest(requestId, studentId, courseCode, message, status, advisorComment);
 
                 specialRequestsList.add(temp);
                 Student s = (Student) findUser(studentId);
@@ -342,9 +348,9 @@ public class DataManager {
 
         try {
             PrintWriter Pr = new PrintWriter(new File(fileName));
-            Pr.println("Student Id, course code, message, status, advisor comment");
+            Pr.println("Request Id,Student Id, course code, message, status, advisor comment");
             for (SpecialRequest sp : specialRequestsList) {
-                Pr.println(sp.getStudentId() + "," + sp.getCourseCode() + "," + sp.getMessage() + "," + sp.getStatus() + "," + sp.getAdvisorcomment());
+                Pr.println( sp.getId() + "," + sp.getStudentId() + "," + sp.getCourseCode() + "," + sp.getMessage() + "," + sp.getStatus() + "," + sp.getAdvisorComment());
             }
             Pr.close();
         } catch (FileNotFoundException e) {

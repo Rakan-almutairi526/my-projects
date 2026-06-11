@@ -2,18 +2,32 @@ package com.mycompany.cs102project;
 
 public class SpecialRequest {
 
+    private String Id;
     private String studentId;
     private String courseCode;
     private String message;
     private String status;
-    private String advisorcomment;
+    private String advisorComment;
 
     public SpecialRequest(String studentId, String courseCode, String message) {
         this.studentId = studentId;
         this.courseCode = courseCode;
         this.message = message;
         this.status = "Pending";
+        this.Id = "REQ0" + (DataManager.specialRequestsList.size() + 1);
+        this.advisorComment = "None";
     }
+
+    public SpecialRequest(String id, String studentId, String courseCode, String message, String status, String advisorComment) {
+        Id = id;
+        this.studentId = studentId;
+        this.courseCode = courseCode;
+        this.message = message;
+        this.status = status;
+        this.advisorComment = advisorComment;
+    }
+
+    public String getId() {return Id;}
 
     public String getStudentId() {
         return studentId;
@@ -31,8 +45,8 @@ public class SpecialRequest {
         return status;
     }
 
-    public String getAdvisorcomment() {
-        return advisorcomment;
+    public String getAdvisorComment() {
+        return advisorComment;
     }
 
     public void setStudentId(String studentId) {
@@ -51,23 +65,23 @@ public class SpecialRequest {
         this.status = status;
     }
 
-    public void setAdvisorcomment(String advisorcomment) {
-        this.advisorcomment = advisorcomment;
+    public void setAdvisorComment(String advisorComment) {
+        this.advisorComment = advisorComment;
     }
 
     public void approveRequest(String comment) {
         setStatus("Approved");
-        this.advisorcomment = comment;
+        this.advisorComment = comment;
     }
 
     public void denyRequest(String comment) {
-        setStatus("declined");
-        this.advisorcomment = comment;
+        setStatus("Declined");
+        this.advisorComment = comment;
     }
 
     @Override
     public String toString() {
-        return "Special request\n" + "Student id: " + getStudentId() + "\ncourseCode: " + getCourseCode() + "\nStudent's message: " + getMessage() + "\nsStatus: " + getStatus() + "Advisor comment: ";
+        return "*Special request* Id: " + getId() +" Student id: " + getStudentId() + " courseCode: " + getCourseCode() + " Student's message: " + getMessage() + " Status: " + getStatus() + " Advisor comment: " + getAdvisorComment();
     }
 
 }

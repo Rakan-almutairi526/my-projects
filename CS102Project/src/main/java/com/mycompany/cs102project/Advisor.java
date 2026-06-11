@@ -19,14 +19,14 @@ public class Advisor extends User {
         studentList.add(student);
     }
 
-    public void viewAllStudent() {
+    public void viewRegisteredStudent() {
         System.out.println("Students assigned to " + getName());
         for (Student student : studentList) {
             System.out.println(student);
         }
     }
 
-    public void viewStudnetCourses(Student student) {
+    public void viewStudentCourses(Student student) {
         System.out.println("Student " + student.getName() + " courses");
         for (Course course : student.getRegisteredCourses()) {
             System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
@@ -39,6 +39,15 @@ public class Advisor extends User {
 
     public void denySpecialRequisite(SpecialRequest request, String comment) {
         request.denyRequest(comment);
+    }
+
+    public void showStudentRequests() {
+
+        for (Student student : getStudentList()) {
+            for (SpecialRequest request : student.getRequests()) {
+                System.out.println(request);
+            }
+        }
     }
 
     @Override

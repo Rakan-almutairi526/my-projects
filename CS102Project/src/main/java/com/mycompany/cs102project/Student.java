@@ -1,7 +1,6 @@
 package com.mycompany.cs102project;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Student extends User {
 
@@ -155,7 +154,6 @@ public class Student extends User {
     }
 
     public void viewRegisteredCourses() {
-        System.out.println("Student" + getName() + "Courses");
         for (Course course : registeredCourses) {
             System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
         }
@@ -163,7 +161,6 @@ public class Student extends User {
 
 
     public void viewSchedule() {
-        System.out.println("Student" + getName() + "Schedule");
         for (Course course : registeredCourses) {
             System.out.println(course.getCourseTitle() + " - " + course.getSchedule());
         }
@@ -184,9 +181,9 @@ public class Student extends User {
         for (Course course : DataManager.courseList) {
             System.out.print(course);
             if (course.hasAvailableSeat()) {
-                System.out.println("available seats");
+                System.out.println(" available seats");
             } else {
-                System.out.println("no available seats");
+                System.out.println(" no available seats");
             }
         }
     }
@@ -208,18 +205,9 @@ public class Student extends User {
         if (requests.isEmpty()) {
             System.out.println("No special request Found");
         } else {
-
             for (SpecialRequest request : getRequests()) {
-
                 System.out.println(request);
-                System.out.print("Advisor comment: ");
-                if (request.getAdvisorcomment() == null) {
-                    System.out.println("Advisor has not replied yet");
-                } else {
-                    System.out.println(request.getAdvisorcomment());
-                }
             }
-
         }
     }
 
@@ -229,6 +217,6 @@ public class Student extends User {
     }
     @Override
     public String toString() {
-        return super.toString() + "Role: Student" + " Major: " + getMajor() + " Registered Course: " + registeredCourses.size();
+        return super.toString() + "Role: Student " + " Major: " + getMajor() + " Registered Course: " + registeredCourses.size();
     }
 }
