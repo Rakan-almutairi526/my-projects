@@ -50,7 +50,7 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "Name: " + getName() +"\nId: " + getId() +"\nPhone: " + getPhone() +"\nAdress: " + getAddress();
+        return "Name: " + getName() +" Id: " + getId() +" Phone: " + getPhone() +" Address: " + getAddress();
     }
     
 

@@ -49,7 +49,7 @@ public class Student extends User {
         return false;
     }
 
-    private String getScheduleConflicts(String courseCode) {
+    public String getScheduleConflicts(String courseCode) {
 
         Course course = DataManager.findCourse(courseCode);
         String courses = "";
@@ -82,7 +82,7 @@ public class Student extends User {
         return true;
     }
 
-    private String getMissingPrerequisite(String courseCode) {
+    public String getMissingPrerequisite(String courseCode) {
 
 
         Course course = DataManager.findCourse(courseCode);
@@ -114,7 +114,7 @@ public class Student extends User {
         return false;
     }
 
-    private String registerForCourse(String courseCode) {
+    public String registerForCourse(String courseCode) {
 
         Course course = DataManager.findCourse(courseCode);
 
@@ -140,7 +140,7 @@ public class Student extends User {
         return "SUCCESS";
     }
 
-    private String dropCourse(String courseCode) {
+    public String dropCourse(String courseCode) {
 
         Course course = DataManager.findCourse(courseCode);
 
@@ -154,7 +154,7 @@ public class Student extends User {
         return "NOT_REGISTERED";
     }
 
-    private void viewRegisteredCourses() {
+    public void viewRegisteredCourses() {
         System.out.println("Student" + getName() + "Courses");
         for (Course course : registeredCourses) {
             System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
@@ -162,7 +162,7 @@ public class Student extends User {
     }
 
 
-    private void viewSchedule() {
+    public void viewSchedule() {
         System.out.println("Student" + getName() + "Schedule");
         for (Course course : registeredCourses) {
             System.out.println(course.getCourseTitle() + " - " + course.getSchedule());
@@ -180,7 +180,7 @@ public class Student extends User {
     }
 
 
-    private void viewAvailableCourses() {
+    public void viewAvailableCourses() {
         for (Course course : DataManager.courseList) {
             System.out.print(course);
             if (course.hasAvailableSeat()) {
@@ -191,7 +191,7 @@ public class Student extends User {
         }
     }
 
-    private String submitSpecialReq(String courseCode, String message) {
+    public String submitSpecialReq(String courseCode, String message) {
 
         Course course = DataManager.findCourse(courseCode);
 
@@ -203,7 +203,7 @@ public class Student extends User {
         return "SUCCESS";
     }
 
-    private void ShowSpecialRequest() {
+    public void ShowSpecialRequest() {
 
         if (requests.isEmpty()) {
             System.out.println("No special request Found");
@@ -223,12 +223,12 @@ public class Student extends User {
         }
     }
 
-    private void updatePersonalInfo(String address, String phone){
+    public void updatePersonalInfo(String address, String phone){
         this.setAddress(address);
         this.setPhone(phone);
     }
     @Override
     public String toString() {
-        return super.toString() + "\nMajor: " + getMajor() + "\nRegistered Course: " + registeredCourses.size();
+        return super.toString() + "Role: Student" + " Major: " + getMajor() + " Registered Course: " + registeredCourses.size();
     }
 }

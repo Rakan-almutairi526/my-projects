@@ -53,7 +53,7 @@ public class Advisor extends User {
 
     @Override
     public String toString() {
-        return super.toString() + "\nRole: Advisor" + "\nAssigned Students: " + getStudentList().size();
+        return super.toString() + " Role: Advisor" + " Assigned Students: " + getStudentList().size();
     }
 
 }
