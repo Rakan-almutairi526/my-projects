@@ -46,7 +46,7 @@ public class Admin extends User {
 
     @Override
     public String toString() {
-        return super.toString() + "\nRole: Admin";
+        return super.toString() + " Role: Admin";
     }
 
 }
