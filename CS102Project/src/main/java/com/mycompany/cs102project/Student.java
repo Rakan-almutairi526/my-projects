@@ -197,6 +197,7 @@ public class Student extends User {
 
         SpecialRequest request = new SpecialRequest(getId(), course.getCourseCode(), message);
         requests.add(request);
+        DataManager.specialRequestsList.add(request);
         return "SUCCESS";
     }
 

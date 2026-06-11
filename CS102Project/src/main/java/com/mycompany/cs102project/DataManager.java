@@ -104,16 +104,6 @@ public class DataManager {
                     Student student = new Student(id, name, phone, address, major);
 
                     if (!parts[6].equalsIgnoreCase("None")) {
-
-                        String[] regcourses = parts[6].split("\\|");
-
-                        for (String regcourse : regcourses) {
-                            student.getRegisteredCourses().add(findCourse(regcourse));
-                        }
-
-                    }
-
-                    if (!parts[7].equalsIgnoreCase("None")) {
                         String[] completedCourses = parts[7].split("\\|");
 
                         for (String compcourse : completedCourses) {
@@ -181,7 +171,7 @@ public class DataManager {
 
         try {
 
-            Scanner inFile = new Scanner(fileName);
+            Scanner inFile = new Scanner(new File(fileName));
             inFile.nextLine();
 
             while (inFile.hasNextLine()) {
@@ -189,11 +179,11 @@ public class DataManager {
                 String line = inFile.nextLine();
                 String[] parts = line.split("\\|");
 
-                Student s = (Student) findUser(parts[1]);
+                Student s = (Student) findUser(parts[0]);
 
                 if (parts[2].equalsIgnoreCase("None")) continue;
 
-                String[] coursesCode = parts[2].split(",");
+                String[] coursesCode = parts[1].split(",");
 
                 for (String courseCode : coursesCode) {
 
@@ -277,7 +267,7 @@ public class DataManager {
             PrintWriter Pr = new PrintWriter(new File(filename));
 
             Pr.println("-Student-");
-            Pr.println("Role, Id, Name, phone, address, major, registered courses, completed courses");
+            Pr.println("Role, Id, Name, phone, address, major, completed courses");
 
             for (User user : userList) {
                 if (user instanceof Student) {
@@ -285,16 +275,6 @@ public class DataManager {
                     Student s = (Student) user;
 
                     Pr.print("Student," + s.getId() + "," + s.getName() + "," + s.getPhone() + "," + s.getAddress() + "," + s.getMajor() + ",");
-
-                    if (s.getRegisteredCourses().isEmpty()) Pr.print("None");
-                    int i = 1;
-                    for (Course regcourse : s.getRegisteredCourses()) {
-                        Pr.print(regcourse.getCourseCode());
-                        if (i < s.getRegisteredCourses().size()) Pr.print("|");
-                        i++;
-                    }
-
-                    Pr.print(",");
 
                     if (s.getCompletedCourses().isEmpty()) Pr.print("None");
                     int i2 = 1;

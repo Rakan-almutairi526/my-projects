@@ -25,6 +25,7 @@ public class Course {
         this.schedule = schedule;
         this.credits = credits;
         this.prerequisites = prerequisites;
+        this.studentList = new ArrayList<>();
     }
 
     public String getCourseCode() {
