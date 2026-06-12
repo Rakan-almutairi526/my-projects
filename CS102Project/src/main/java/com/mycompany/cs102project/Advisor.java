@@ -33,12 +33,32 @@ public class Advisor extends User {
         }
     }
 
-    public void approveSpecialRequisite(SpecialRequest request, String comment) {
-        request.approveRequest(comment);
+    public String approveSpecialRequisite(String requestId, String comment) {
+
+        SpecialRequest request = DataManager.findRequest(requestId);
+        if (request == null) return "REQUEST_NOT_FOUND";
+        if (!request.getStatus().equalsIgnoreCase("Pending")) return "ALREADY_HANDLED";
+
+        Student student = (Student) DataManager.findUser(request.getStudentId());
+        Course course = DataManager.findCourse(request.getCourseCode());
+
+        request.setStatus("Approved");
+        request.setAdvisorComment(comment);
+
+        student.getRegisteredCourses().add(course);
+        course.enrollOneStudent(student);
+        return "SUCCESS";
     }
 
-    public void denySpecialRequisite(SpecialRequest request, String comment) {
-        request.denyRequest(comment);
+    public String denySpecialRequisite(String requestId, String comment) {
+
+        SpecialRequest request = DataManager.findRequest(requestId);
+        if (request == null) return "REQUEST_NOT_FOUND";
+        if (!request.getStatus().equalsIgnoreCase("Pending")) return "ALREADY_HANDLED";
+
+        request.setStatus("Declined");
+        request.setAdvisorComment(comment);
+        return "SUCCESS";
     }
 
     public void showStudentRequests() {

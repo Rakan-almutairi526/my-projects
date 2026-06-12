@@ -69,16 +69,6 @@ public class SpecialRequest {
         this.advisorComment = advisorComment;
     }
 
-    public void approveRequest(String comment) {
-        setStatus("Approved");
-        this.advisorComment = comment;
-    }
-
-    public void denyRequest(String comment) {
-        setStatus("Declined");
-        this.advisorComment = comment;
-    }
-
     @Override
     public String toString() {
         return "*Special request* Id: " + getId() +" Student id: " + getStudentId() + " courseCode: " + getCourseCode() + " Student's message: " + getMessage() + " Status: " + getStatus() + " Advisor comment: " + getAdvisorComment();
