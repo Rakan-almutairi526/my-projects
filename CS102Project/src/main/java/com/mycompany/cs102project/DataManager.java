@@ -104,7 +104,7 @@ public class DataManager {
                     Student student = new Student(id, name, phone, address, major);
 
                     if (!parts[6].equalsIgnoreCase("None")) {
-                        String[] completedCourses = parts[7].split("\\|");
+                        String[] completedCourses = parts[6].split("\\|");
 
                         for (String compcourse : completedCourses) {
                             student.getCompletedCourses().add(findCourse(compcourse));
@@ -181,7 +181,7 @@ public class DataManager {
 
                 Student s = (Student) findUser(parts[0]);
 
-                if (parts[2].equalsIgnoreCase("None")) continue;
+                if (parts[1].equalsIgnoreCase("None")) continue;
 
                 String[] coursesCode = parts[1].split(",");
 
@@ -206,9 +206,10 @@ public class DataManager {
 
             Pr.println("StudentIds|Registered Courses");
 
-            int i = 1;
+
             for (User user : userList) {
 
+                int i = 1;
                 if (user instanceof Student) {
                     Student temp = (Student) user;
                     Pr.print(temp.getId() + "|");

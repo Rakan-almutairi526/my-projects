@@ -46,7 +46,8 @@ public class Advisor extends User {
         request.setAdvisorComment(comment);
 
         student.getRegisteredCourses().add(course);
-        course.enrollOneStudent(student);
+        course.getStudentList().add(student);
+        course.setEnrolledStudentCount(course.getEnrolledStudentCount() + 1);
         return "SUCCESS";
     }
 
