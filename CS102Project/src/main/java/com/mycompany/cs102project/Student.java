@@ -172,7 +172,6 @@ public class Student extends User {
         System.out.println("Name: " + getName());
         System.out.println("ID: " + getId());
         System.out.println("Major: " + getMajor());
-        System.out.println("Registered Courses: " + registeredCourses.size());
         System.out.println("--------------------------------\n\n");
     }
 
