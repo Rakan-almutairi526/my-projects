@@ -6,18 +6,22 @@ import java.util.Scanner;
 
 public class Main {
 
-    /*
+
     public static void main(String[] args) {
 
-        DataManager.loadCoursesFromFile("C:\\Users\\hgfdo\\OneDrive\\desktop\\CsProject\\courses_file.csv");
-        DataManager.loadUsersFromFile("users_file.csv");
+        DataManager.loadCoursesFromFile("courses.txt");
+        DataManager.loadUsersFromFile("users.txt");
+        DataManager.loadEnrollments("enrollments.txt");
+        DataManager.loadSpecialRequestFromFile("specialRequests.txt");
 
         Scanner input = new Scanner(System.in);
-
+        Menu menu;
         while (true) {
 
+            System.out.println("Welcome to the system");
             System.out.print("Enter your ID (or type EXIT to quit): ");
             String id = input.nextLine();
+            System.out.println();
 
             if (id.equalsIgnoreCase("EXIT")) {
                 System.out.println("Goodbye!");
@@ -31,20 +35,17 @@ public class Main {
                 continue;
             }
 
-            if (loggedUser instanceof Student) {
-                showStudentMenu((Student) loggedUser);
-
+            if (loggedUser instanceof Student student) {
+                menu = new StudentMenu(student, input);
+                menu.start();
             } else if (loggedUser instanceof Advisor) {
-                showAdvisorMenu((Advisor) loggedUser);
-
             } else if (loggedUser instanceof Admin) {
-                showAdminMenu((Admin) loggedUser);
             }
 
         }
 
     }
-
+/*
     private static void showStudentMenu(Student student) {
         Scanner input = new Scanner(System.in);
         int choice;

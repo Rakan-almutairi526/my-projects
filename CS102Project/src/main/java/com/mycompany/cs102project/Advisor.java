@@ -77,7 +77,7 @@ public class Advisor extends User {
         System.out.println("Name: " + getName());
         System.out.println("ID: " + getId());
         System.out.println("Students assigned: " + getStudentList().size());
-        System.out.println("--------------------------------\n\n");
+        System.out.println("--------------------------------");
     }
 
 

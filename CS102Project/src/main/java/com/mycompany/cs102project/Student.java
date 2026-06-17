@@ -172,7 +172,7 @@ public class Student extends User {
         System.out.println("Name: " + getName());
         System.out.println("ID: " + getId());
         System.out.println("Major: " + getMajor());
-        System.out.println("--------------------------------\n\n");
+        System.out.println("--------------------------------");
     }
 
 
@@ -187,17 +187,10 @@ public class Student extends User {
         }
     }
 
-    public String submitSpecialReq(String courseCode, String message) {
-
-        Course course = DataManager.findCourse(courseCode);
-
-        if (course == null) return "NOT_FOUND";
-
-
-        SpecialRequest request = new SpecialRequest(getId(), course.getCourseCode(), message);
+    public void submitSpecialReq(String courseCode, String message) {
+        SpecialRequest request = new SpecialRequest(getId(), courseCode, message);
         requests.add(request);
         DataManager.specialRequestsList.add(request);
-        return "SUCCESS";
     }
 
     public void ShowSpecialRequest() {
@@ -209,11 +202,6 @@ public class Student extends User {
                 System.out.println(request);
             }
         }
-    }
-
-    public void updatePersonalInfo(String address, String phone){
-        this.setAddress(address);
-        this.setPhone(phone);
     }
     @Override
     public String toString() {

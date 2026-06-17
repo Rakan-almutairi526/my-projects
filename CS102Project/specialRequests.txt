@@ -1,1 +1,2 @@
 Request Id,Student Id, course code, message, status, advisor comment
+REQ01,S001,CS101,I want to open this course,Pending,None

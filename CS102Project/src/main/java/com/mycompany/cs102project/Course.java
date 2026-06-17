@@ -157,7 +157,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course code: " + getCourseCode() + " Title: " + getCourseTitle() + " Instructor ID: " + getInstructorId() + " Credits: " + getCredits() + " Capacity: " + getCapacity() + " Schedule: " + getSchedule();
+        return "Course code:" + getCourseCode() + " Title:" + getCourseTitle() + " Instructor ID:" + getInstructorId() + " Credits:" + getCredits() + " Capacity:" + getCapacity() + " Schedule:" + getSchedule();
     }
 
 }
