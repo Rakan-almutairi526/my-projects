@@ -15,7 +15,6 @@ public class StudentMenu implements Menu{
 
     @Override
     public void start() {
-
         student.showRoleSummary();
         System.out.println();
         System.out.println();
@@ -76,7 +75,7 @@ public class StudentMenu implements Menu{
                 String name = input.nextLine();
                 System.out.println();
                 student.setName(name);
-                System.out.println("Operation was successful");
+                System.out.println("Operation was successful\n");
                 DataManager.saveUsersToFile("users.txt");
             }
             if (choice == 2){
@@ -84,7 +83,7 @@ public class StudentMenu implements Menu{
                 String phone = input.nextLine();
                 System.out.println();
                 student.setPhone(phone);
-                System.out.println("Operation was successful");
+                System.out.println("Operation was successful\n");
                 DataManager.saveUsersToFile("users.txt");
             }
         }while (choice != 0);
@@ -103,7 +102,7 @@ public class StudentMenu implements Menu{
             if (courseCode.equalsIgnoreCase("0")) break;
             course = DataManager.findCourse(courseCode);
             if (course == null){
-                System.out.println("Course not found");
+                System.out.println("Course not found\n");
             }else {
                 course.showAllPrerequisites();
             }
@@ -115,7 +114,6 @@ public class StudentMenu implements Menu{
         System.out.println("Submitting special request require course code and message");
         Course course = null;
         String courseCode = "";
-        String section = "Submit Special Request";
         while (true) {
             System.out.println("0. return");
             System.out.print("Enter course Code: ");
@@ -124,7 +122,7 @@ public class StudentMenu implements Menu{
             if (courseCode.equalsIgnoreCase("0")) break;
             course = DataManager.findCourse(courseCode);
             if (course == null){
-                System.out.println("Course not found");
+                System.out.println("Course not found\n");
             }else {
                 break;
             }
@@ -160,23 +158,23 @@ public class StudentMenu implements Menu{
             String registerResult = student.registerForCourse(courseCode);
             switch (registerResult){
                 case "NOT_FOUND":
-                System.out.println("The course is not found");
+                System.out.println("The course is not found\n");
                 break;
                 case "ALREADY_REGISTERED":
-                System.out.println("The course is already registered");
+                System.out.println("The course is already registered\n");
                 break;
                 case "MISSING_PREREQUISITE":
-                System.out.println("Prerequisites missing: " + student.getMissingPrerequisite(courseCode));
+                System.out.println("Prerequisites missing: " + student.getMissingPrerequisite(courseCode) + "\n");
                 break;
                 case "NOT_ENOUGH_SEATS":
-                System.out.println("The course does not have available seats");
+                System.out.println("The course does not have available seats\n");
                 break;
                 case "SCHEDULE_CONFLICT":
-                System.out.println("Schedule conflicts with: " + student.getScheduleConflicts(courseCode));
+                System.out.println("Schedule conflicts with: " + student.getScheduleConflicts(courseCode) + "\n");
                 break;
                 case "SUCCESS":
                 System.out.println("Registration successful");
-                System.out.println("You are registered in: " + courseCode);
+                System.out.println("You are registered in: " + courseCode + "\n");
                 DataManager.saveEnrollments("enrollments.txt");
                 DataManager.saveCoursesToFile("courses.txt");
                 break;
@@ -199,16 +197,16 @@ public class StudentMenu implements Menu{
             switch (dropResult){
 
                 case "NOT_FOUND":
-                    System.out.println("The course is not found");
+                    System.out.println("The course is not found\n");
                     break;
                 case "NOT_REGISTERED":
-                    System.out.println("The course " + courseCode + " is not registered. therefore, can not drop");
+                    System.out.println("The course " + courseCode + " is not registered. therefore, can not drop\n");
                     break;
                 case "SUCCESS":
                     System.out.println("The course " + courseCode + " was successfully dropped");
                     System.out.println("*Registered courses*");
                     student.viewRegisteredCourses();
-                    System.out.println("********************");
+                    System.out.println("********************\n");
                     DataManager.saveEnrollments("enrollments.txt");
                     DataManager.saveCoursesToFile("courses.txt");
                     break;

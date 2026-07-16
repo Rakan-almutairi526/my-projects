@@ -1,6 +1,1 @@
-StudentIds|Registered Courses
-S001|CS101,MATH101
-S002|CS102
-S003|None
-S004|CS175
-S005|COM201
+Student,S001,Rakan,0500000001,Riyadh,Software Engineering,CS101|MATH101

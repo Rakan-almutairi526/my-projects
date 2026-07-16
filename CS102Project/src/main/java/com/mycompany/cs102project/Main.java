@@ -1,5 +1,6 @@
 package com.mycompany.cs102project;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,7 +19,7 @@ public class Main {
         Menu menu;
         while (true) {
 
-            System.out.println("Welcome to the system");
+            System.out.println("Welcome to the system");;
             System.out.print("Enter your ID (or type EXIT to quit): ");
             String id = input.nextLine();
             System.out.println();
@@ -38,7 +39,9 @@ public class Main {
             if (loggedUser instanceof Student student) {
                 menu = new StudentMenu(student, input);
                 menu.start();
-            } else if (loggedUser instanceof Advisor) {
+            } else if (loggedUser instanceof Advisor advisor) {
+                menu = new AdvisorMenu(advisor, input);
+                menu.start();
             } else if (loggedUser instanceof Admin) {
             }
 
@@ -46,243 +49,6 @@ public class Main {
 
     }
 /*
-    private static void showStudentMenu(Student student) {
-        Scanner input = new Scanner(System.in);
-        int choice;
-
-        do {
-            System.out.println("\n-------------- Student Menu --------------");
-            System.out.println("Welcome, " + getName() + " (ID: " + getId() + ")");
-            System.out.println("Please choose an option:");
-            System.out.println("1. Register for a Course");
-            System.out.println("2. Drop a Course");
-            System.out.println("3. View Registered Courses");
-            System.out.println("4. View Schedule");
-            System.out.println("5. View Available Courses");
-            System.out.println("6. Submit a Special Request");
-            System.out.println("7. Show Prerequisites Of a Course");
-            System.out.println("8. Update Personal Information");
-            System.out.println("9. Show Special Requests Submitted");
-            System.out.println("0. Logout");
-            System.out.println("------------------------------------------");
-            System.out.print("Enter your choice: ");
-
-            choice = input.nextInt();
-            input.nextLine();
-
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter course code to register: ");
-                    String regCode = input.nextLine();
-
-                    Course regCourse = DataManager.findCourse(regCode);
-
-                    if (regCourse == null) {
-                        System.out.println("Course not found!");
-                    } else {
-                        if (student.registerForCourse(regCourse)) {
-                            System.out.println("Successfully registered!");
-                        } else {
-                            System.out.println("Could not register. Check prerequisites, schedule, or capacity.");
-                        }
-                    }
-                    break;
-
-                case 2:
-                    System.out.print("Enter course code to drop: ");
-                    String dropCode = input.nextLine();
-
-                    Course dropCourse = DataManager.findCourse(dropCode);
-
-                    if (dropCourse == null) {
-                        System.out.println("Course not found!");
-                    } else {
-                        if (student.dropCourse(dropCourse)) {
-                            System.out.println("Successfully dropped!");
-                        } else {
-                            System.out.println("You are not registered in this course.");
-                        }
-                    }
-                    break;
-
-                case 3:
-                    student.viewRegisteredCourses();
-                    break;
-
-                case 4:
-                    student.viewSchedule();
-                    break;
-
-                case 5:
-                    student.viewAvailableCourses();
-                    break;
-
-                case 6:
-                    System.out.print("Enter course code for special request: ");
-                    String reqCode = input.nextLine();
-                    System.out.print("Enter your message: ");
-                    String message = input.nextLine();
-
-                    Course reqCourse = DataManager.findCourse(reqCode);
-
-                    if (reqCourse == null) {
-                        System.out.println("Course not found!");
-                    } else {
-                        student.submitSpecialReq(reqCourse, message);
-                        System.out.println("Special request submitted!");
-                    }
-                    break;
-
-                case 7:
-                    System.out.print("Enter course code to view prerequisites: ");
-                    String preCode = input.nextLine();
-                    student.showPrerequisitesRecursive(preCode);
-                    break;
-
-                case 8:
-                    System.out.println("Logging out...");
-                    break;
-
-                default:
-                    System.out.println("Invalid choice. Try again.");
-            }
-
-        } while (choice != 8);
-    }
-
-    private static void showAdvisorMenu(Advisor advisor) {
-
-        Scanner input = new Scanner(System.in);
-        int choice;
-
-        do {
-            System.out.println("\n-------------- Advisor Menu --------------");
-            System.out.println("Welcome, " + advisor.getName() + " (ID: " + advisor.getId() + ")");
-            System.out.println("Please choose an option:");
-            System.out.println("1. View All Assigned Students");
-            System.out.println("2. View a Student's Courses");
-            System.out.println("3. Approve a Special Request");
-            System.out.println("4. Deny a Special Request");
-            System.out.println("5. Logout");
-            System.out.println("------------------------------------------");
-            System.out.print("Enter your choice: ");
-
-            choice = input.nextInt();
-            input.nextLine();
-
-            switch (choice) {
-                case 1:
-                    advisor.viewAllStudent();
-                    break;
-
-                case 2:
-                    System.out.print("Enter student ID: ");
-                    String sid = input.nextLine();
-
-                    User u = DataManager.findUser(sid);
-
-                    if (u instanceof Student) {
-                        advisor.viewStudnetCourses((Student) u);
-                    } else {
-                        System.out.println("Student not found or not a student account.");
-                    }
-                    break;
-
-                case 3:
-                    System.out.print("Enter student ID: ");
-                    String sid2 = input.nextLine();
-
-                    User u2 = DataManager.findUser(sid2);
-
-                    if (!(u2 instanceof Student)) {
-                        System.out.println("Student not found.");
-                        break;
-                    }
-
-                    Student target = (Student) u2;
-
-                    if (target.getRequests().isEmpty()) {
-                        System.out.println("This student has no requests.");
-                        break;
-                    }
-
-                    System.out.println("\nSpecial Requests:");
-                    for (int i = 0; i < target.getRequests().size(); i++) {
-                        System.out.println(i + ": " + target.getRequests().get(i));
-                    }
-
-                    System.out.print("Enter request number to approve: ");
-                    int reqNum = input.nextInt();
-                    input.nextLine();
-
-                    if (reqNum < 0 || reqNum >= target.getRequests().size()) {
-                        System.out.println("Invalid request number.");
-                        break;
-                    }
-
-                    SpecialRequest req = target.getRequests().get(reqNum);
-
-                    System.out.print("Enter approval comment: ");
-                    String comment = input.nextLine();
-
-                    advisor.approveSpecialRequisite(req, comment);
-
-                    System.out.println("Request approved!");
-                    break;
-
-                case 4:
-
-                    System.out.print("Enter student ID: ");
-                    String sid3 = input.nextLine();
-
-                    User u3 = DataManager.findUser(sid3);
-
-                    if (!(u3 instanceof Student)) {
-                        System.out.println("Student not found.");
-                        break;
-                    }
-
-                    Student target2 = (Student) u3;
-
-                    if (target2.getRequests().isEmpty()) {
-                        System.out.println("This student has no requests.");
-                        break;
-                    }
-
-                    System.out.println("\nSpecial Requests:");
-                    for (int i = 0; i < target2.getRequests().size(); i++) {
-                        System.out.println(i + ": " + target2.getRequests().get(i));
-                    }
-
-                    System.out.print("Enter request number to deny: ");
-                    int reqNum2 = input.nextInt();
-                    input.nextLine();
-
-                    if (reqNum2 < 0 || reqNum2 >= target2.getRequests().size()) {
-                        System.out.println("Invalid request number.");
-                        break;
-                    }
-
-                    SpecialRequest req2 = target2.getRequests().get(reqNum2);
-
-                    System.out.print("Enter denial reason: ");
-                    String comment2 = input.nextLine();
-
-                    advisor.denySpecialRequisite(req2, comment2);
-
-                    System.out.println("Request denied!");
-                    break;
-
-                case 5:
-                    System.out.println("Logging out...");
-                    break;
-
-                default:
-                    System.out.println("Invalid choice. Try again.");
-            }
-
-        } while (choice != 5);
-    }
 
     private static void showAdminMenu(Admin admin) {
         Scanner input = new Scanner(System.in);

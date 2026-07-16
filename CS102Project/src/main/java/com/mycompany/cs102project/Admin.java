@@ -12,35 +12,26 @@ public class Admin extends User {
         DataManager.courseList.add(course);
     }
 
-    public String removeCourse(String courseCode) {
-
-        Course course = DataManager.findCourse(courseCode);
-        if (course == null) return "COURSE_NOT_FOUND";
-
+    public void removeCourse(Course course) {
         DataManager.courseList.remove(course);
-        return "SUCCESS";
     }
 
     public void addUser(User user) {
         DataManager.userList.add(user);
     }
 
-    public String removeUser(String userId) {
+    public void removeUser(User user) {
 
-        User user = DataManager.findUser(userId);
+        if (user instanceof Student){
+            Student student = (Student) user;
+            for (Course course : student.getRegisteredCourses()){
 
-        if (user == null) return "USER_NOT_FOUND";
-
-        DataManager.userList.remove(user);
-        return "SUCCESS";
+            }
+        }
     }
 
 
-    public String updateCourseInfo(String courseCode,String info, int choice){
-
-        Course course = DataManager.findCourse(courseCode);
-        if (course == null) return "COURSE_NOT_FOUND";
-        if (choice > 8 || choice < 0) return "INVALID_CHOICE";
+    public void updateCourseInfo(Course course,String info, int choice){
 
         switch (choice){
 
@@ -66,13 +57,10 @@ public class Admin extends User {
                 course.setCredits(Integer.parseInt(info));
                 break;
             case 8:
-                Course prereq = DataManager.findCourse(info);
-                if (prereq == null) return "PREREQUISITE_NOT_FOUND";
-                prereq.getPrerequisites().add(prereq.getCourseCode());
+                course.getPrerequisites().add(info);
                 break;
+            case 9: course.getPrerequisites().remove(info);
         }
-
-        return "SUCCESS";
     }
 
     public void viewAllUsers() {

@@ -1,15 +1,15 @@
 -Student-
-Role, Id, Name, phone, address, major, registered courses, completed courses 
-Student,S001,Rakan,0500000001,Riyadh,Software Engineering,CS101|MATH101,CS101|MATH101
-Student,S002,Ahmed,0500000002,Jeddah,Computer Science,CS102,CS101
-Student,S003,Sara,0500000003,Dammam,Information Systems,None,None
-Student,S004,Khalid,0500000004,Riyadh,Software Engineering,CS175,CS101
-Student,S005,Nora,0500000005,Khobar,Computer Science,COM201,CS101|CS102|CS175
+Role, Id, Name, phone, address, major, completed courses
+Student,S001,Rakan,0500000001,Riyadh,Software Engineering,CS101|MATH101
+Student,S002,Ahmed,0500000002,Jeddah,Computer Science,CS102
+Student,S003,Sara,0500000003,Dammam,Information Systems,None
+Student,S004,Khalid,0500000004,Riyadh,Software Engineering,CS175
+Student,S005,Nora,0500000005,Khobar,Computer Science,COM201
 -Advisor-
 Role, Id, Name, Phone, Address, Assigned Students Ids
 Advisor,0001,Dr Ahmed,0500000101,PSU,S001|S002
 Advisor,0002,Dr Sarah,0500000102,PSU,S003|S004
 Advisor,0003,Dr Faisal,0500000103,PSU,S005
 -Admin-
-Role, Id, Name, Phone, Address 
-Admin,AD001,System Admin,0500000999,PSU
+Role, Id, Name, Phone, Address
+Admin,AD001,Fhad9900,0500000999,PSU

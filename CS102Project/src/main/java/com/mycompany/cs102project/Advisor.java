@@ -20,25 +20,18 @@ public class Advisor extends User {
     }
 
     public void viewRegisteredStudent() {
-        System.out.println("Students assigned to " + getName());
         for (Student student : studentList) {
             System.out.println(student);
         }
     }
 
     public void viewStudentCourses(Student student) {
-        System.out.println("Student " + student.getName() + " courses");
         for (Course course : student.getRegisteredCourses()) {
             System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
         }
     }
 
-    public String approveSpecialRequisite(String requestId, String comment) {
-
-        SpecialRequest request = DataManager.findRequest(requestId);
-        if (request == null) return "REQUEST_NOT_FOUND";
-        if (!request.getStatus().equalsIgnoreCase("Pending")) return "ALREADY_HANDLED";
-
+    public void approveSpecialRequisite(SpecialRequest request, String comment) {
         Student student = (Student) DataManager.findUser(request.getStudentId());
         Course course = DataManager.findCourse(request.getCourseCode());
 
@@ -48,18 +41,11 @@ public class Advisor extends User {
         student.getRegisteredCourses().add(course);
         course.getStudentList().add(student);
         course.setEnrolledStudentCount(course.getEnrolledStudentCount() + 1);
-        return "SUCCESS";
     }
 
-    public String denySpecialRequisite(String requestId, String comment) {
-
-        SpecialRequest request = DataManager.findRequest(requestId);
-        if (request == null) return "REQUEST_NOT_FOUND";
-        if (!request.getStatus().equalsIgnoreCase("Pending")) return "ALREADY_HANDLED";
-
+    public void denySpecialRequisite(SpecialRequest request, String comment) {
         request.setStatus("Declined");
         request.setAdvisorComment(comment);
-        return "SUCCESS";
     }
 
     public void showStudentRequests() {
@@ -83,7 +69,7 @@ public class Advisor extends User {
 
     @Override
     public String toString() {
-        return super.toString() + " Role: Advisor" + " Assigned Students: " + getStudentList().size();
+        return super.toString() + " Role:Advisor" + " Assigned Students:" + getStudentList().size();
     }
 
 }

@@ -205,6 +205,6 @@ public class Student extends User {
     }
     @Override
     public String toString() {
-        return super.toString() + "Role: Student " + " Major: " + getMajor() + " Registered Course: " + registeredCourses.size();
+        return super.toString() + "Role:Student " + " Major:" + getMajor() + " Registered Course:" + registeredCourses.size();
     }
 }
