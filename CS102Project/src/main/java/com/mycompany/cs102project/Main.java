@@ -42,7 +42,9 @@ public class Main {
             } else if (loggedUser instanceof Advisor advisor) {
                 menu = new AdvisorMenu(advisor, input);
                 menu.start();
-            } else if (loggedUser instanceof Admin) {
+            } else if (loggedUser instanceof Admin admin) {
+                menu = new AdminMenu(admin, input);
+                menu.start();
             }
 
         }

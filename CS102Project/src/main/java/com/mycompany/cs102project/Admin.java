@@ -25,8 +25,22 @@ public class Admin extends User {
         if (user instanceof Student){
             Student student = (Student) user;
             for (Course course : student.getRegisteredCourses()){
-
+                student.dropCourse(course.getCourseCode());
             }
+            Advisor advisor = (Advisor) DataManager.findUser(student.getAdvisorId());
+            advisor.getStudentList().remove(student);
+            DataManager.userList.remove(student);
+        }
+        if (user instanceof Advisor){
+            Advisor advisor = (Advisor) user;
+            for (Student student : advisor.getStudentList()){
+                student.setAdvisorId("Yet to be defined");
+                advisor.getStudentList().remove(student);
+            }
+            for (Course course : DataManager.courseList){
+                if (course.getInstructorId().equalsIgnoreCase(advisor.getId())) course.setInstructorId("Yet to be defined");
+            }
+            DataManager.userList.remove(advisor);
         }
     }
 

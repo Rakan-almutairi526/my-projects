@@ -1,6 +1,6 @@
 Course code, course title, course description, instructor ID, capacity, schedule, prerequisites, enrolled students, credits
 CS101,Introduction to Programming,Basic programming concepts,0001,6,9:00AM-10:00AM SUN/TUE,None,3,3
-CS102,Object Oriented Programming,Classes objects inheritance and polymorphism,0002,6,10:00AM-11:00AM MON/WED,CS101,5,4
+CS102,Object Oriented Programming,Classes objects inheritance and polymorphism,0002,6,10:00AM-11:00AM MON/WED,CS101,6,4
 CS175,Digital Logic Design,Logic gates circuits and binary systems,0003,6,9:00AM-10:00AM SUN/TUE,None,2,3
 CS210,Data Structure,Intro to data structure,0004,6,2:00PM-3:00PM SUN/TUE,CS101|CS102|CS175,5,3
 SE201,Software Engineering,Software process requirements and design,0005,6,10:00AM-11:00AM MON/WED,CS102,6,3

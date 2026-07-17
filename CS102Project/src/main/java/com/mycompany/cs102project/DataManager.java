@@ -100,14 +100,14 @@ public class DataManager {
 
                 if (role.equalsIgnoreCase("Student")) {
                     String major = parts[5];
-
-                    Student student = new Student(id, name, phone, address, major);
+                    String advisorId = parts[6];
+                    Student student = new Student(id, name, phone, address, major, advisorId);
 
                     if (!parts[6].equalsIgnoreCase("None")) {
-                        String[] completedCourses = parts[6].split("\\|");
+                        String[] completedCourses = parts[7].split("\\|");
 
-                        for (String compcourse : completedCourses) {
-                            student.getCompletedCourses().add(findCourse(compcourse));
+                        for (String course : completedCourses) {
+                            student.getCompletedCourses().add(findCourse(course));
                         }
                     }
 
@@ -268,19 +268,19 @@ public class DataManager {
             PrintWriter Pr = new PrintWriter(new File(filename));
 
             Pr.println("-Student-");
-            Pr.println("Role, Id, Name, phone, address, major, completed courses");
+            Pr.println("Role, Id, Name, phone, address, major, AdvisorId, completed courses");
 
             for (User user : userList) {
                 if (user instanceof Student) {
 
                     Student s = (Student) user;
 
-                    Pr.print("Student," + s.getId() + "," + s.getName() + "," + s.getPhone() + "," + s.getAddress() + "," + s.getMajor() + ",");
+                    Pr.print("Student," + s.getId() + "," + s.getName() + "," + s.getPhone() + "," + s.getAddress() + "," + s.getMajor() + "," +  s.getAdvisorId() + ",");
 
                     if (s.getCompletedCourses().isEmpty()) Pr.print("None");
                     int i2 = 1;
-                    for (Course compcourse : s.getCompletedCourses()) {
-                        Pr.print(compcourse.getCourseCode());
+                    for (Course course : s.getCompletedCourses()) {
+                        Pr.print(course.getCourseCode());
                         if (i2 < s.getCompletedCourses().size()) Pr.print("|");
                         i2++;
                     }

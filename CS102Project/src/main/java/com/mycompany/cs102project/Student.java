@@ -5,13 +5,15 @@ import java.util.ArrayList;
 public class Student extends User {
 
     private String major;
+    private String advisorId;
     private ArrayList<Course> registeredCourses;
     private ArrayList<SpecialRequest> requests;
     private ArrayList<Course> completedCourses;
 
-    public Student(String id, String name, String phone, String address, String major) {
+    public Student(String id, String name, String phone, String address, String major, String advisorId) {
         super(id, name, phone, address);
         this.major = major;
+        this.advisorId = advisorId;
         this.registeredCourses = new ArrayList<>();
         this.requests = new ArrayList<>();
         this.completedCourses = new ArrayList<>();
@@ -35,6 +37,14 @@ public class Student extends User {
 
     public ArrayList<Course> getCompletedCourses() {
         return completedCourses;
+    }
+
+    public String getAdvisorId() {
+        return advisorId;
+    }
+
+    public void setAdvisorId(String advisorId) {
+        this.advisorId = advisorId;
     }
 
     private boolean hasScheduleConflicts(Course course) {
@@ -172,6 +182,7 @@ public class Student extends User {
         System.out.println("Name: " + getName());
         System.out.println("ID: " + getId());
         System.out.println("Major: " + getMajor());
+        System.out.println("Advisor Id: " + getAdvisorId());
         System.out.println("--------------------------------");
     }
 
@@ -203,6 +214,7 @@ public class Student extends User {
             }
         }
     }
+
     @Override
     public String toString() {
         return super.toString() + "Role:Student " + " Major:" + getMajor() + " Registered Course:" + registeredCourses.size();
