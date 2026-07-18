@@ -13,6 +13,15 @@ public class Admin extends User {
     }
 
     public void removeCourse(Course course) {
+
+        for (Student student : course.getStudentList()){
+            student.dropCourse(course.getCourseCode());
+        }
+        for (Course course1 : DataManager.courseList){
+            if (course1.getPrerequisites().contains(course.getCourseCode())){
+                course1.getPrerequisites().remove(course.getCourseCode());
+            }
+        }
         DataManager.courseList.remove(course);
     }
 
@@ -22,29 +31,38 @@ public class Admin extends User {
 
     public void removeUser(User user) {
 
-        if (user instanceof Student){
-            Student student = (Student) user;
-            for (Course course : student.getRegisteredCourses()){
-                student.dropCourse(course.getCourseCode());
-            }
-            Advisor advisor = (Advisor) DataManager.findUser(student.getAdvisorId());
-            advisor.getStudentList().remove(student);
-            DataManager.userList.remove(student);
+        if (user instanceof Student student){
+            removeStudent(student);
         }
-        if (user instanceof Advisor){
-            Advisor advisor = (Advisor) user;
-            for (Student student : advisor.getStudentList()){
-                student.setAdvisorId("Yet to be defined");
-                advisor.getStudentList().remove(student);
-            }
-            for (Course course : DataManager.courseList){
-                if (course.getInstructorId().equalsIgnoreCase(advisor.getId())) course.setInstructorId("Yet to be defined");
-            }
-            DataManager.userList.remove(advisor);
+        if (user instanceof Advisor advisor){
+            removeAdvisor(advisor);
         }
     }
 
+    private void removeStudent(Student student){
+        ArrayList<Course> registeredCourses = new ArrayList<>(student.getRegisteredCourses());
+        for (Course course : registeredCourses){
+            student.dropCourse(course.getCourseCode());
+        }
+        User advior = DataManager.findUser(student.getAdvisorId());
+        if (advior instanceof Advisor advisor){
+            advisor.getStudentList().remove(student);
+        }
+        for (SpecialRequest sr : student.getRequests()){
+            DataManager.specialRequestsList.remove(sr);
+        }
+        DataManager.userList.remove(student);
+    }
 
+    private void removeAdvisor(Advisor advisor){
+        for (Student student : advisor.getStudentList()){
+            student.setAdvisorId("Yet to be defined");
+        }
+        for (Course course : DataManager.courseList){
+            if (course.getInstructorId().equalsIgnoreCase(advisor.getId())) course.setInstructorId("Yet to be defined");
+        }
+        DataManager.userList.remove(advisor);
+    }
     public void updateCourseInfo(Course course,String info, int choice){
 
         switch (choice){

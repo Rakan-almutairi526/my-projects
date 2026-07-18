@@ -337,6 +337,11 @@ public class DataManager {
         } catch (FileNotFoundException e) {
             System.out.println("error occurred");
         }
-
+    }
+    public static void saveAllData(){
+        saveCoursesToFile("courses.txt");
+        saveUsersToFile("users.txt");
+        saveSpecialRequestsToFile("specialRequests.txt");
+        saveEnrollments("enrollments.txt");
     }
 }
