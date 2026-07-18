@@ -14,11 +14,11 @@ public class Admin extends User {
 
     public void removeCourse(Course course) {
 
-        for (Student student : course.getStudentList()){
+        for (Student student : course.getStudentList()) {
             student.dropCourse(course.getCourseCode());
         }
-        for (Course course1 : DataManager.courseList){
-            if (course1.getPrerequisites().contains(course.getCourseCode())){
+        for (Course course1 : DataManager.courseList) {
+            if (course1.getPrerequisites().contains(course.getCourseCode())) {
                 course1.getPrerequisites().remove(course.getCourseCode());
             }
         }
@@ -31,68 +31,100 @@ public class Admin extends User {
 
     public void removeUser(User user) {
 
-        if (user instanceof Student student){
+        if (user instanceof Student student) {
             removeStudent(student);
         }
-        if (user instanceof Advisor advisor){
+        if (user instanceof Advisor advisor) {
             removeAdvisor(advisor);
         }
     }
 
-    private void removeStudent(Student student){
+    private void removeStudent(Student student) {
         ArrayList<Course> registeredCourses = new ArrayList<>(student.getRegisteredCourses());
-        for (Course course : registeredCourses){
+        for (Course course : registeredCourses) {
             student.dropCourse(course.getCourseCode());
         }
         User advior = DataManager.findUser(student.getAdvisorId());
-        if (advior instanceof Advisor advisor){
+        if (advior instanceof Advisor advisor) {
             advisor.getStudentList().remove(student);
         }
-        for (SpecialRequest sr : student.getRequests()){
+        for (SpecialRequest sr : student.getRequests()) {
             DataManager.specialRequestsList.remove(sr);
         }
         DataManager.userList.remove(student);
     }
 
-    private void removeAdvisor(Advisor advisor){
-        for (Student student : advisor.getStudentList()){
+    private void removeAdvisor(Advisor advisor) {
+        for (Student student : advisor.getStudentList()) {
             student.setAdvisorId("Yet to be defined");
         }
-        for (Course course : DataManager.courseList){
+        for (Course course : DataManager.courseList) {
             if (course.getInstructorId().equalsIgnoreCase(advisor.getId())) course.setInstructorId("Yet to be defined");
         }
         DataManager.userList.remove(advisor);
     }
-    public void updateCourseInfo(Course course,String info, int choice){
 
-        switch (choice){
+    public boolean updateCourseInfo(Course course, String information, int choice) {
+
+        switch (choice) {
 
             case 1:
-                course.setCourseCode(info);
-                break;
+                if (DataManager.findCourse(information) != null) {
+                    return false;
+                }
+                course.setCourseCode(information);
+                return true;
             case 2:
-                course.setCourseTitle(info);
-                break;
+                course.setCourseTitle(information);
+                return true;
             case 3:
-                course.setCourseDescription(info);
-                break;
+                course.setCourseDescription(information);
+                return true;
             case 4:
-                course.setInstructorId(info);
-                break;
+                User user = DataManager.findUser(information);
+                if (!(user instanceof Advisor)) return false;
+
+                course.setInstructorId(information);
+                return true;
             case 5:
-                course.setCapacity(Integer.parseInt(info));
-                break;
+                int capacity = Integer.parseInt(information);
+
+                if (capacity < course.getStudentList().size()) {
+                    return false;
+                }
+
+                course.setCapacity(capacity);
+                return true;
             case 6:
-                course.setSchedule(info);
-                break;
+                course.setSchedule(information);
+                return true;
             case 7:
-                course.setCredits(Integer.parseInt(info));
-                break;
+                course.setCredits(Integer.parseInt(information));
+                return true;
             case 8:
-                course.getPrerequisites().add(info);
-                break;
-            case 9: course.getPrerequisites().remove(info);
+                if (information.equalsIgnoreCase(course.getCourseCode())) {
+                    return false;
+                }
+
+                if (DataManager.findCourse(information) == null) {
+                    return false;
+                }
+
+                if (course.getPrerequisites().contains(information)) {
+                    return false;
+                }
+
+                course.getPrerequisites().add(information);
+                return true;
+            case 9:
+                if (!course.getPrerequisites().contains(information)) {
+                    return false;
+                }
+
+                course.getPrerequisites().remove(information);
+                return true;
         }
+        return false;
     }
 
     public void viewAllUsers() {
