@@ -103,11 +103,11 @@ public class DataManager {
                     String advisorId = parts[6];
                     Student student = new Student(id, name, phone, address, major, advisorId);
 
-                    if (!parts[6].equalsIgnoreCase("None")) {
+                    if (!parts[7].equalsIgnoreCase("None")) {
                         String[] completedCourses = parts[7].split("\\|");
 
                         for (String course : completedCourses) {
-                            student.getCompletedCourses().add(findCourse(course));
+                            student.getCompletedCourses().add(course);
                         }
                     }
 
@@ -279,8 +279,8 @@ public class DataManager {
 
                     if (s.getCompletedCourses().isEmpty()) Pr.print("None");
                     int i2 = 1;
-                    for (Course course : s.getCompletedCourses()) {
-                        Pr.print(course.getCourseCode());
+                    for (String course : s.getCompletedCourses()) {
+                        Pr.print(course);
                         if (i2 < s.getCompletedCourses().size()) Pr.print("|");
                         i2++;
                     }

@@ -28,7 +28,7 @@ public class AdminMenu implements Menu {
 
                 case 1: addCourse(); break;
                 case 2: removeCourse();break;
-                case 3: break;
+                case 3: updateCourseInfo();break;
                 case 4: break;
                 case 5: break;
                 case 6: break;
@@ -117,58 +117,142 @@ public class AdminMenu implements Menu {
         }while (true);
         System.out.println("-------------------------------------------");
     }
-    private void updateCourseInfo(){
+    private void updateCourseInfo() {
+
         System.out.println("-------------- Update Course Information --------------");
+
         int choice;
+
         do {
+
             Course course = DataManager.findCourse(takeInformation("Course Code"));
-            if (course == null){
+
+            if (course == null) {
+
                 System.out.println("Course Not Found!");
-            }else {
-                System.out.print(course);
-                System.out.print(" Prerequisite: ");
-                for (String prerequisite : course.getPrerequisites()) {
-                    System.out.print(prerequisite + " ");
-                }
+
+            } else {
+
                 do {
 
                     System.out.println();
+                    System.out.println(course);
+
+                    System.out.print("Prerequisites: ");
+
+                    if (course.getPrerequisites().isEmpty()) {
+                        System.out.println("None");
+                    } else {
+                        for (String prerequisite : course.getPrerequisites()) {
+                            System.out.print(prerequisite + " ");
+                        }
+                        System.out.println();
+                    }
+
+                    System.out.println();
                     System.out.println("0. Finish Updating");
-                    System.out.println("1. Update Code");
+                    System.out.println("1. Update Course Code");
                     System.out.println("2. Update Title");
                     System.out.println("3. Update Description");
-                    System.out.println("4. Update Instructor Id");
+                    System.out.println("4. Update Instructor ID");
                     System.out.println("5. Update Capacity");
                     System.out.println("6. Update Schedule");
                     System.out.println("7. Update Credits");
                     System.out.println("8. Add Prerequisite");
                     System.out.println("9. Remove Prerequisite");
-                    System.out.print("Enter your choice: ");
-                    choice = readChoice(9, 0, input);
+
+                    choice = readChoice(9,0,input);
+
+                    if (choice == 0) {
+                        break;
+                    }
+
+                    String info;
+
                     switch (choice){
 
-                        case 0:
-                            break;
                         case 1:
                             System.out.println("Current Course Code: " + course.getCourseCode());
-                            course.setCourseCode(takeInformation("Course Code"));
-                            System.out.println("Course Code was ");
+                            info = takeInformation("New Course Code");
+                            admin.updateCourseInfo(course, info, 1);
+                            System.out.println("Course Code Updated Successfully!");
+                            break;
 
+                        case 2:
+                            System.out.println("Current Title: " + course.getCourseTitle());
+                            info = takeInformation("New Title");
+                            admin.updateCourseInfo(course, info, 2);
+                            System.out.println("Course Title Updated Successfully!");
+                            break;
+
+                        case 3:
+                            System.out.println("Current Description: " + course.getCourseDescription());
+                            info = takeInformation("New Description");
+                            admin.updateCourseInfo(course, info, 3);
+                            System.out.println("Course Description Updated Successfully!");
+                            break;
+
+                        case 4:
+                            System.out.println("Current Instructor ID: " + course.getInstructorId());
+                            info = takeInformation("New Instructor ID");
+                            admin.updateCourseInfo(course, info, 4);
+                            System.out.println("Instructor Updated Successfully!");
+                            break;
+
+                        case 5:
+                            System.out.println("Current Capacity: " + course.getCapacity());
+                            info = takeInformation("New Capacity");
+                            admin.updateCourseInfo(course, info, 5);
+                            System.out.println("Capacity Updated Successfully!");
+                            break;
+
+                        case 6:
+                            System.out.println("Current Schedule: " + course.getSchedule());
+                            info = takeInformation("New Schedule");
+                            admin.updateCourseInfo(course, info, 6);
+                            System.out.println("Schedule Updated Successfully!");
+                            break;
+
+                        case 7:
+                            System.out.println("Current Credits: " + course.getCredits());
+                            info = takeInformation("New Credits");
+                            admin.updateCourseInfo(course, info, 7);
+                            System.out.println("Credits Updated Successfully!");
+                            break;
+
+                        case 8:
+                            info = takeInformation("Prerequisite To Add");
+                            admin.updateCourseInfo(course, info, 8);
+                            System.out.println("Prerequisite Added Successfully!");
+                            break;
+
+                        case 9:
+                            info = takeInformation("Prerequisite To Remove");
+                            admin.updateCourseInfo(course, info, 9);
+                            System.out.println("Prerequisite Removed Successfully!");
+                            break;
                     }
-                }while (choice != 0);
-            }
-        }
 
+                    DataManager.saveAllData();
+
+                } while (true);
+
+            }
+
+            System.out.println();
+            System.out.println("0. Return");
+            System.out.println("1. Update Another Course");
+
+            choice = readChoice(1,0,input);
+
+        } while (choice == 1);
+
+        System.out.println("----------------------------------------");
     }
     private String takeInformation(String requiredInfo){
         System.out.print(requiredInfo + ": ");
         String info = input.nextLine();
         System.out.println();
         return info;
-    }
-    private void updateAttribute(String attribute, Course course){
-        System.out.println("Current Course " + attribute + ": " + course.getCourseCode());
-        course.setCourseCode(takeInformation(attribute));
-        System.out.println("Course " + attribute + " was update to " + course.get);
     }
 }

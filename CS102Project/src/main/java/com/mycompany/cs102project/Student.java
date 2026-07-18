@@ -8,7 +8,7 @@ public class Student extends User {
     private String advisorId;
     private ArrayList<Course> registeredCourses;
     private ArrayList<SpecialRequest> requests;
-    private ArrayList<Course> completedCourses;
+    private ArrayList<String> completedCourses;
 
     public Student(String id, String name, String phone, String address, String major, String advisorId) {
         super(id, name, phone, address);
@@ -35,7 +35,7 @@ public class Student extends User {
         return major;
     }
 
-    public ArrayList<Course> getCompletedCourses() {
+    public ArrayList<String> getCompletedCourses() {
         return completedCourses;
     }
 
@@ -80,8 +80,8 @@ public class Student extends User {
         for (String prerequist : course.getPrerequisites()) {
 
             found = false;
-            for (Course completedCourse : getCompletedCourses()) {
-                if (completedCourse.getCourseCode().equalsIgnoreCase(prerequist)) {
+            for (String completedCourse : getCompletedCourses()) {
+                if (completedCourse.equalsIgnoreCase(prerequist)) {
                     found = true;
                     break;
                 }
@@ -101,8 +101,8 @@ public class Student extends User {
         for (String prereq : course.getPrerequisites()) {
 
             found = false;
-            for (Course c : getCompletedCourses()) {
-                if (c.getCourseCode().equalsIgnoreCase(prereq)) {
+            for (String c : getCompletedCourses()) {
+                if (c.equalsIgnoreCase(prereq)) {
                     found = true;
                     break;
                 }
