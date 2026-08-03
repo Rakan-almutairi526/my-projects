@@ -57,6 +57,9 @@ public class AdvisorMenu implements Menu{
                 System.out.println("Request not found\n");
                 continue;
             }
+            if (!advisor.findStudent(request.getStudentId())){
+                System.out.println("This student is not assigned to you!");
+            }
             if (!request.getStatus().equalsIgnoreCase("Pending")){
                 System.out.println("Request already handled\n");
                 continue;
@@ -71,7 +74,7 @@ public class AdvisorMenu implements Menu{
             }
             System.out.println("Request was successfully " + statement + "\n");
         }while (true);
-        DataManager.saveSpecialRequestsToFile("specialRequests.txt");
+        DataManager.saveAllData();
         System.out.println("---------------------------------------------------------");
     }
     private void viewAllStudents(){
@@ -87,9 +90,14 @@ public class AdvisorMenu implements Menu{
             String id = input.nextLine();
             System.out.println();
             if (id.equalsIgnoreCase("0")) break;
-            Student student = (Student) DataManager.findUser(id);
-            if (student == null) {
-                System.out.println("Student not found\n");
+            User user = DataManager.findUser(id);
+
+            if (!(user instanceof Student student)) {
+                System.out.println("Student not found");
+                continue;
+            }
+            if (!advisor.getStudentList().contains(student)) {
+                System.out.println("This student is not assigned to you.");
                 continue;
             }
             System.out.println("Student Name: " + student.getName() + " Student id: " + student.getId());

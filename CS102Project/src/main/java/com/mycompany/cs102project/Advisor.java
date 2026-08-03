@@ -48,6 +48,13 @@ public class Advisor extends User {
         request.setAdvisorComment(comment);
     }
 
+    public boolean findStudent(String Id){
+        for (Student student : getStudentList()){
+            if (student.getId().equalsIgnoreCase(Id)) return true;
+        }
+        return false;
+    }
+
     public void showStudentRequests() {
 
         for (Student student : getStudentList()) {

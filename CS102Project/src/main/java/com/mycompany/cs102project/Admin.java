@@ -14,7 +14,8 @@ public class Admin extends User {
 
     public void removeCourse(Course course) {
 
-        for (Student student : course.getStudentList()) {
+        ArrayList<Student> students = new ArrayList<>(course.getStudentList());
+        for (Student student : students) {
             student.dropCourse(course.getCourseCode());
         }
         for (Course course1 : DataManager.courseList) {
