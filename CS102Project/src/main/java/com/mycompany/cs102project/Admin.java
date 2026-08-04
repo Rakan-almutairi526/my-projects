@@ -70,10 +70,50 @@ public class Admin extends User {
         switch (choice) {
 
             case 1:
-                if (DataManager.findCourse(information) != null) {
+
+                String newCode = information.trim();
+                String oldCode = course.getCourseCode();
+
+                Course existingCourse = DataManager.findCourse(newCode);
+
+                if (existingCourse != null && existingCourse != course) {
                     return false;
                 }
-                course.setCourseCode(information);
+
+                for (Course otherCourse : DataManager.courseList) {
+
+                    for (int i = 0; i < otherCourse.getPrerequisites().size(); i++) {
+
+                        String prerequisite = otherCourse.getPrerequisites().get(i);
+
+                        if (prerequisite.equalsIgnoreCase(oldCode)) {
+                            otherCourse.getPrerequisites().set(i, newCode);
+                        }
+                    }
+                }
+
+                for (SpecialRequest request : DataManager.specialRequestsList) {
+
+                    if (request.getCourseCode().equalsIgnoreCase(oldCode)) {
+
+                        request.setCourseCode(newCode);
+                    }
+                }
+                for (User user : DataManager.userList) {
+
+                    if (user instanceof Student student) {
+
+                        for (int i = 0; i < student.getCompletedCourses().size(); i++) {
+
+                            String completedCode = student.getCompletedCourses().get(i);
+
+                            if (completedCode.equalsIgnoreCase(oldCode)) {
+                                student.getCompletedCourses().set(i, newCode);
+                            }
+                        }
+                    }
+                }
+                course.setCourseCode(newCode);
                 return true;
             case 2:
                 course.setCourseTitle(information);
