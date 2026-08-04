@@ -2,6 +2,7 @@ package com.mycompany.cs102project;
 
 public class SpecialRequest {
 
+    private static int nextRequestNumber = 1;
     private String Id;
     private String studentId;
     private String courseCode;
@@ -9,24 +10,36 @@ public class SpecialRequest {
     private String status;
     private String advisorComment;
 
-    public SpecialRequest(String studentId, String courseCode, String message) {
+    public SpecialRequest(String studentId, String courseCode, String message)
+    {
+        this.Id = String.format("REQ%02d", nextRequestNumber++);
         this.studentId = studentId;
         this.courseCode = courseCode;
         this.message = message;
         this.status = "Pending";
-        this.Id = "REQ0" + (DataManager.specialRequestsList.size() + 1);
         this.advisorComment = "None";
     }
 
     public SpecialRequest(String id, String studentId, String courseCode, String message, String status, String advisorComment) {
-        Id = id;
+        this.Id = id;
         this.studentId = studentId;
         this.courseCode = courseCode;
         this.message = message;
         this.status = status;
         this.advisorComment = advisorComment;
-    }
 
+        updateNextRequestNumber(id);
+    }
+    private static void updateNextRequestNumber(String requestId)
+    {
+        try {
+            int loadedNumber = Integer.parseInt(requestId.substring(3));
+            if (loadedNumber >= nextRequestNumber) {
+                nextRequestNumber = loadedNumber + 1;
+            }
+        } catch (Exception e) {
+        }
+    }
     public String getId() {return Id;}
 
     public String getStudentId() {
