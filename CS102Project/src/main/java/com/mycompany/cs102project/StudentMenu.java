@@ -2,10 +2,10 @@ package com.mycompany.cs102project;
 
 import java.util.Scanner;
 
-public class StudentMenu implements Menu{
+public class StudentMenu implements Menu {
 
-   private Student student;
-   private Scanner input;
+    private Student student;
+    private Scanner input;
 
 
     public StudentMenu(Student student, Scanner input) {
@@ -22,19 +22,38 @@ public class StudentMenu implements Menu{
         do {
             menu();
             choice = readChoice(9, 0, this.input);
-            switch (choice){
-                case 0: break;
-                case 1: registerForCourse(); break;
-                case 2: dropCourse(); break;
-                case 3: viewRegisteredCourses(); break;
-                case 4: viewSchedule(); break;
-                case 5: viewAvailableCourses(); break;
-                case 6: submitSpecialRequest(); break;
-                case 7: ShowPrerequisite(); break;
-                case 8: updatePersonalInfo(); break;
-                case 9: showSpecialRequest(); break;
+            switch (choice) {
+                case 0:
+                    break;
+                case 1:
+                    registerForCourse();
+                    break;
+                case 2:
+                    dropCourse();
+                    break;
+                case 3:
+                    viewRegisteredCourses();
+                    break;
+                case 4:
+                    viewSchedule();
+                    break;
+                case 5:
+                    viewAvailableCourses();
+                    break;
+                case 6:
+                    submitSpecialRequest();
+                    break;
+                case 7:
+                    ShowPrerequisite();
+                    break;
+                case 8:
+                    updatePersonalInfo();
+                    break;
+                case 9:
+                    showSpecialRequest();
+                    break;
             }
-        }while (choice != 0);
+        } while (choice != 0);
     }
 
     @Override
@@ -55,12 +74,13 @@ public class StudentMenu implements Menu{
         System.out.print("Enter your choice: ");
     }
 
-    private void showSpecialRequest(){
+    private void showSpecialRequest() {
         System.out.println("-------------- Special Requests --------------");
         student.ShowSpecialRequest();
         System.out.println("----------------------------------------------");
     }
-    private void updatePersonalInfo(){
+
+    private void updatePersonalInfo() {
         System.out.println("-------------- Update Personal Information --------------");
         int choice;
         do {
@@ -70,26 +90,27 @@ public class StudentMenu implements Menu{
             System.out.println("2. change phone number");
             System.out.print("Enter your choice: ");
             choice = readChoice(2, 0, this.input);
-            if (choice == 1){
+            if (choice == 1) {
                 System.out.print("Enter name: ");
-                String name = input.nextLine();
+                String name = input.nextLine().trim();
                 System.out.println();
                 student.setName(name);
                 System.out.println("Operation was successful\n");
                 DataManager.saveUsersToFile("users.txt");
             }
-            if (choice == 2){
+            if (choice == 2) {
                 System.out.print("Enter phone: ");
-                String phone = input.nextLine();
+                String phone = input.nextLine().trim();
                 System.out.println();
                 student.setPhone(phone);
                 System.out.println("Operation was successful\n");
                 DataManager.saveUsersToFile("users.txt");
             }
-        }while (choice != 0);
+        } while (choice != 0);
         System.out.println("---------------------------------------------------------");
     }
-    private void ShowPrerequisite(){
+
+    private void ShowPrerequisite() {
         System.out.println("-------------- Show Course's Prerequisites --------------");
         Course course = null;
         String courseCode = "";
@@ -97,19 +118,20 @@ public class StudentMenu implements Menu{
         do {
             System.out.println("0. return");
             System.out.print("Enter course code: ");
-            courseCode = input.nextLine();
+            courseCode = input.nextLine().trim();
             System.out.println();
             if (courseCode.equalsIgnoreCase("0")) break;
             course = DataManager.findCourse(courseCode);
-            if (course == null){
+            if (course == null) {
                 System.out.println("Course not found\n");
-            }else {
+            } else {
                 course.showAllPrerequisites();
             }
-        }while (true);
+        } while (true);
         System.out.println("---------------------------------------------------------");
     }
-    private void submitSpecialRequest(){
+
+    private void submitSpecialRequest() {
         System.out.println("-------------- Submit Special Request --------------");
         System.out.println("Submitting special request require course code and message");
         Course course = null;
@@ -117,19 +139,19 @@ public class StudentMenu implements Menu{
         while (true) {
             System.out.println("0. return");
             System.out.print("Enter course Code: ");
-            courseCode = input.nextLine();
+            courseCode = input.nextLine().trim();
             System.out.println();
             if (courseCode.equalsIgnoreCase("0")) break;
             course = DataManager.findCourse(courseCode);
-            if (course == null){
+            if (course == null) {
                 System.out.println("Course not found\n");
-            }else {
+            } else {
                 break;
             }
         }
-        if (course != null){
+        if (course != null) {
             System.out.print("Enter the message: ");
-            String message = input.nextLine();
+            String message = input.nextLine().trim();
             System.out.println();
             student.submitSpecialReq(courseCode, message);
             System.out.println("Submitting special request was successful");
@@ -137,64 +159,71 @@ public class StudentMenu implements Menu{
         }
         System.out.println("----------------------------------------------------");
     }
-    private void viewAvailableCourses(){
+
+    private void viewAvailableCourses() {
         System.out.println("-------------- Available Courses --------------");
         student.viewAvailableCourses();
         System.out.println("------------------------------------------------");
     }
-    private void viewSchedule(){
+
+    private void viewSchedule() {
         System.out.println("-------------- Schedule --------------");
         student.viewSchedule();
         System.out.println("--------------------------------------");
     }
-    private void registerForCourse(){
+
+    private void registerForCourse() {
         System.out.println("-------------- Registration --------------");
         do {
             System.out.println("0. return");
             System.out.print("Enter course Code: ");
-            String courseCode = input.nextLine();
+            String courseCode = input.nextLine().trim();
             System.out.println();
             if (courseCode.equalsIgnoreCase("0")) break;
             String registerResult = student.registerForCourse(courseCode);
-            switch (registerResult){
+            switch (registerResult) {
                 case "NOT_FOUND":
-                System.out.println("The course is not found\n");
-                break;
+                    System.out.println("The course is not found\n");
+                    break;
                 case "ALREADY_REGISTERED":
-                System.out.println("The course is already registered\n");
-                break;
+                    System.out.println("The course is already registered\n");
+                    break;
+                case "ALREADY_COMPLETED":
+                    System.out.println("You have already completed this course.");
+                    break;
                 case "MISSING_PREREQUISITE":
-                System.out.println("Prerequisites missing: " + student.getMissingPrerequisite(courseCode) + "\n");
-                break;
+                    System.out.println("Prerequisites missing: " + student.getMissingPrerequisite(courseCode) + "\n");
+                    break;
                 case "NOT_ENOUGH_SEATS":
-                System.out.println("The course does not have available seats\n");
-                break;
+                    System.out.println("The course does not have available seats\n");
+                    break;
                 case "SCHEDULE_CONFLICT":
-                System.out.println("Schedule conflicts with: " + student.getScheduleConflicts(courseCode) + "\n");
-                break;
+                    System.out.println("Schedule conflicts with: " + student.getScheduleConflicts(courseCode) + "\n");
+                    break;
                 case "SUCCESS":
-                System.out.println("Registration successful");
-                System.out.println("You are registered in: " + courseCode + "\n");
-                DataManager.saveEnrollments("enrollments.txt");
-                DataManager.saveCoursesToFile("courses.txt");
-                break;
+                    System.out.println("Registration successful");
+                    System.out.println("You are registered in: " + courseCode + "\n");
+                    DataManager.saveEnrollments("enrollments.txt");
+                    DataManager.saveCoursesToFile("courses.txt");
+                    break;
             }
 
-        }while (true);
+        } while (true);
         System.out.println("------------------------------------------");
     }
-    private void dropCourse(){
+
+    private void dropCourse() {
 
         System.out.println("-------------- Drop Course --------------");
         do {
             System.out.println("0. return");
             System.out.print("Enter course Code: ");
-            String courseCode = input.nextLine();
+            String courseCode = input.nextLine().trim();
             System.out.println();
             if (courseCode.equalsIgnoreCase("0")) break;
             String dropResult = student.dropCourse(courseCode);
 
-            switch (dropResult){
+            switch (dropResult) {
 
                 case "NOT_FOUND":
                     System.out.println("The course is not found\n");
@@ -211,10 +240,11 @@ public class StudentMenu implements Menu{
                     DataManager.saveCoursesToFile("courses.txt");
                     break;
             }
-        }while (true);
+        } while (true);
         System.out.println("-----------------------------------------");
     }
-    private void viewRegisteredCourses(){
+
+    private void viewRegisteredCourses() {
         System.out.println("-------------- Registered Courses --------------");
         student.viewRegisteredCourses();
         System.out.println("------------------------------------------------");

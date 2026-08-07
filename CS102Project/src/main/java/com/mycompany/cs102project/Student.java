@@ -122,13 +122,28 @@ public class Student extends User {
 
         return false;
     }
+    private boolean hasCompletedCourse(Course course) {
 
+        for (String completedCourseCode : completedCourses) {
+
+            if (completedCourseCode.equalsIgnoreCase(
+                    course.getCourseCode()
+            )) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     public String registerForCourse(String courseCode) {
 
         Course course = DataManager.findCourse(courseCode);
 
         if (course == null) {
             return "NOT_FOUND";
+        }
+        if (hasCompletedCourse(course)) {
+            return "ALREADY_COMPLETED";
         }
         if (isCourseRegistered(course)) {
             return "ALREADY_REGISTERED";
@@ -180,6 +195,8 @@ public class Student extends User {
     public void showRoleSummary() {
         System.out.println("---- Student Account ---");
         System.out.println("Name: " + getName());
+        System.out.println("Phone Number: " + getPhone());
+        System.out.println("Address: " + getAddress());
         System.out.println("ID: " + getId());
         System.out.println("Major: " + getMajor());
         System.out.println("Advisor Id: " + getAdvisorId());
@@ -217,6 +234,6 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        return super.toString() + "Role:Student " + " Major:" + getMajor() + " Registered Course:" + registeredCourses.size();
+        return super.toString() + " Role:Student " + " Major:" + getMajor() + " Registered Course:" + registeredCourses.size();
     }
 }

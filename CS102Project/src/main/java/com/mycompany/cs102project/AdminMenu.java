@@ -144,8 +144,9 @@ public class AdminMenu implements Menu {
         System.out.println("\nDo you want to add prerequisites?");
         System.out.println("1. Yes");
         System.out.println("2. No");
-
+        System.out.print("Enter your choice: ");
         int choice = readChoice(2, 1, input);
+        System.out.println();
 
         while (choice == 1) {
 
@@ -177,8 +178,9 @@ public class AdminMenu implements Menu {
             System.out.println("\nAdd another prerequisite?");
             System.out.println("1. Yes");
             System.out.println("2. No");
-
+            System.out.print("Enter your choice: ");
             choice = readChoice(2, 1, input);
+            System.out.println();
         }
 
         Course course = new Course(courseCode, title, description, instructorId, capacity, 0, schedule ,credits, prerequisites);
@@ -189,7 +191,7 @@ public class AdminMenu implements Menu {
         System.out.println("Course was added successfully.");
         System.out.println("---------------------------------");
     }
-    
+
     private void removeCourse() {
         System.out.println("-------------- Remove course --------------");
         int choice;
@@ -202,7 +204,9 @@ public class AdminMenu implements Menu {
                 System.out.println("Are you sure you want to remove this course?");
                 System.out.println("0. no");
                 System.out.println("1. yes");
+                System.out.print("Enter your choice: ");
                 choice = readChoice(1, 0, input);
+                System.out.println();
                 if (choice == 1) {
                     admin.removeCourse(course);
                     DataManager.saveAllData();
@@ -213,7 +217,9 @@ public class AdminMenu implements Menu {
             }
             System.out.println("0. return");
             System.out.println("1. continue in remove course");
+            System.out.print("Enter your choice: ");
             choice = readChoice(1, 0, input);
+            System.out.println();
             if (choice == 0) break;
         } while (true);
         System.out.println("-------------------------------------------");
@@ -262,8 +268,9 @@ public class AdminMenu implements Menu {
                     System.out.println("7. Update Credits");
                     System.out.println("8. Add Prerequisite");
                     System.out.println("9. Remove Prerequisite");
-
+                    System.out.print("Enter your choice: ");
                     choice = readChoice(9, 0, input);
+                    System.out.println();
 
                     if (choice == 0) {
                         break;
@@ -347,8 +354,9 @@ public class AdminMenu implements Menu {
             System.out.println();
             System.out.println("0. Return");
             System.out.println("1. Update Another Course");
-
+            System.out.print("Enter your choice: ");
             choice = readChoice(1, 0, input);
+            System.out.println();
 
         } while (choice == 1);
 
@@ -360,7 +368,9 @@ public class AdminMenu implements Menu {
         System.out.println("0. Return");
         System.out.println("1. Add Student");
         System.out.println("2. Add Advisor");
+        System.out.print("Enter your choice: ");
         int choice = readChoice(2, 0, input);
+        System.out.println();
         switch (choice) {
             case 1:
                 addStudent();
@@ -381,14 +391,16 @@ public class AdminMenu implements Menu {
 
         while (true) {
 
-            String id = takeInformation("Enter user ID: ").trim();
+            String id = takeInformation("Enter user ID: ");
 
             user = DataManager.findUser(id);
 
             if (user == null) {
                 System.out.println("No user with this ID exists. Please try again.");
-            }
-            else {
+            } else if (user == admin) {
+                System.out.println("You cannot remove the currently logged-in admin.");
+                continue;
+            } else {
                 break;
             }
         }
@@ -399,8 +411,9 @@ public class AdminMenu implements Menu {
         System.out.println("\nAre you sure?");
         System.out.println("1. Yes");
         System.out.println("2. No");
-
+        System.out.print("Enter your choice: ");
         int choice = readChoice(2, 1, input);
+        System.out.println();
 
         if (choice == 2) {
             System.out.println("Operation cancelled.");
@@ -430,16 +443,17 @@ public class AdminMenu implements Menu {
             }
         }
 
-        String name = takeInformation("Student name: ").trim();
-        String phone = takeInformation("Phone number: ").trim();
-        String address = takeInformation("Address: ").trim();
-        String major = takeInformation("Major: ").trim();
+        String name = takeInformation("Student name: ");
+        String phone = takeInformation("Phone number: ");
+        String address = takeInformation("Address: ");
+        String major = takeInformation("Major: ");
 
         System.out.println("Is an advisor currently defined for this student?");
         System.out.println("1. Yes");
         System.out.println("2. No");
-
+        System.out.print("Enter your choice: ");
         int choice = readChoice(2, 1, input);
+        System.out.println();
         String advisorId;
         Advisor advisor = null;
 
@@ -489,9 +503,9 @@ public class AdminMenu implements Menu {
             }
         }
 
-        String name = takeInformation("Advisor name: ").trim();
-        String phone = takeInformation("Phone number: ").trim();
-        String address = takeInformation("Address: ").trim();
+        String name = takeInformation("Advisor name: ");
+        String phone = takeInformation("Phone number: ");
+        String address = takeInformation("Address: ");
 
         Advisor advisor = new Advisor(id, name, phone, address);
 
@@ -504,10 +518,7 @@ public class AdminMenu implements Menu {
     }
     private void showSystemStatistic() {
         System.out.println("-------------- System Statistic --------------");
-        admin.viewAllUsers();
-        System.out.println("Total users: " + DataManager.userList.size());
-        admin.viewAllCourses();
-        System.out.println("Total courses: " + DataManager.courseList.size());
+        admin.showSystemStatistics();
         System.out.println("----------------------------------------------");
     }
 

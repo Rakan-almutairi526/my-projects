@@ -49,7 +49,7 @@ public class AdvisorMenu implements Menu{
         do {
             System.out.println("0. return");
             System.out.print("Enter request id: ");
-            String id = input.nextLine();
+            String id = input.nextLine().trim();
             System.out.println();
             if (id.equalsIgnoreCase("0")) break;
             SpecialRequest request = DataManager.findRequest(id);
@@ -59,13 +59,14 @@ public class AdvisorMenu implements Menu{
             }
             if (!advisor.findStudent(request.getStudentId())){
                 System.out.println("This student is not assigned to you!");
+                continue;
             }
             if (!request.getStatus().equalsIgnoreCase("Pending")){
                 System.out.println("Request already handled\n");
                 continue;
             }
             System.out.print("Enter comment: ");
-            String comment = input.nextLine();
+            String comment = input.nextLine().trim();
             System.out.println();
             if (statement.equalsIgnoreCase("Approved")) {
                 advisor.approveSpecialRequisite(request, comment);
@@ -87,7 +88,7 @@ public class AdvisorMenu implements Menu{
         do {
             System.out.println("0. return");
             System.out.print("Enter student Id: ");
-            String id = input.nextLine();
+            String id = input.nextLine().trim();
             System.out.println();
             if (id.equalsIgnoreCase("0")) break;
             User user = DataManager.findUser(id);

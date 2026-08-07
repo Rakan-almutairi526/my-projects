@@ -22,7 +22,7 @@ public class Main {
             System.out.println("Welcome to the system");
             ;
             System.out.print("Enter your ID (or type EXIT to quit): ");
-            String id = input.nextLine();
+            String id = input.nextLine().trim();
             System.out.println();
 
             if (id.equalsIgnoreCase("EXIT")) {

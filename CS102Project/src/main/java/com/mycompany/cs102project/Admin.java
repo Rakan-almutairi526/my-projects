@@ -23,6 +23,13 @@ public class Admin extends User {
                 course1.getPrerequisites().remove(course.getCourseCode());
             }
         }
+        DataManager.specialRequestsList.removeIf(request -> request.getCourseCode().equalsIgnoreCase(course.getCourseCode()));
+
+        for (User user : DataManager.userList) {
+            if (user instanceof Student student) {
+                student.getRequests().removeIf(request -> request.getCourseCode().equalsIgnoreCase(course.getCourseCode()));
+            }
+        }
         DataManager.courseList.remove(course);
     }
 
@@ -37,6 +44,9 @@ public class Admin extends User {
         }
         if (user instanceof Advisor advisor) {
             removeAdvisor(advisor);
+        }
+        if (user instanceof Admin) {
+            return;
         }
     }
 
@@ -168,22 +178,62 @@ public class Admin extends User {
         return false;
     }
 
-    public void viewAllUsers() {
+    private void viewAllUsers() {
         for (User user : DataManager.userList) {
             System.out.println(user);
         }
     }
 
-    public void viewAllCourses() {
+    private void viewAllCourses() {
         for (Course course : DataManager.courseList) {
             System.out.println(course);
         }
     }
 
+    private void viewAllSpecialRequests(){
+        for (SpecialRequest sp : DataManager.specialRequestsList){
+            System.out.println(sp);
+        }
+    }
+    public void showSystemStatistics() {
+
+        System.out.println("\n--- Users ---");
+        viewAllUsers();
+
+        System.out.println("\n--- Courses ---");
+        viewAllCourses();
+
+        System.out.println("\n--- Special Requests ---");
+        viewAllSpecialRequests();
+
+        int students = 0;
+        int advisors = 0;
+        int admins = 0;
+
+        for (User user : DataManager.userList) {
+            if (user instanceof Student) {
+                students++;
+            } else if (user instanceof Advisor) {
+                advisors++;
+            } else if (user instanceof Admin) {
+                admins++;
+            }
+        }
+
+        System.out.println("\n--- Summary ---");
+        System.out.println("Students: " + students);
+        System.out.println("Advisors: " + advisors);
+        System.out.println("Admins: " + admins);
+        System.out.println("Courses: " + DataManager.courseList.size());
+        System.out.println("Special Requests: " + DataManager.specialRequestsList.size());
+
+    }
     @Override
     public void showRoleSummary() {
         System.out.println("---- Admin Account ---");
         System.out.println("Name: " + getName());
+        System.out.println("Phone Number: " + getPhone());
+        System.out.println("Address: " + getAddress());
         System.out.println("ID: " + getId());
         System.out.println("--------------------------------");
     }

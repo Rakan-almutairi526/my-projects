@@ -68,6 +68,8 @@ public class Advisor extends User {
     public void showRoleSummary() {
         System.out.println("---- Advisor Account ---");
         System.out.println("Name: " + getName());
+        System.out.println("Phone Number: " + getPhone());
+        System.out.println("Address: " + getAddress());
         System.out.println("ID: " + getId());
         System.out.println("Students assigned: " + getStudentList().size());
         System.out.println("--------------------------------");

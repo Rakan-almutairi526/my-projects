@@ -9,7 +9,7 @@ public interface Menu {
     default int readChoice(int max, int min, Scanner input) {
 
         while (true){
-          String temp = input.nextLine();
+          String temp = input.nextLine().trim();
             System.out.println();
           try{
               int choice = Integer.parseInt(temp);
